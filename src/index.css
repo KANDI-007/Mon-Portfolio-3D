@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Effet électrique */
+  .electric-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .electric-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      #3b82f6,
+      #2563eb,
+      #1e40af,
+      #991b1b,
+      #b91c1c,
+      #dc2626,
+      #3b82f6
+    );
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -1;
+    animation: electric-flow 3s ease infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes electric-flow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Effet de glow animé */
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5),
+                  0 0 40px rgba(59, 130, 246, 0.3),
+                  0 0 60px rgba(59, 130, 246, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.8),
+                  0 0 60px rgba(59, 130, 246, 0.5),
+                  0 0 90px rgba(59, 130, 246, 0.3);
+    }
+  }
+
+  /* Effet de particules électriques */
+  .electric-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .electric-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
+    animation: electric-float 3s ease-in-out infinite;
+  }
+
+  @keyframes electric-float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Texte avec glow subtil */
+  .text-glow {
+    text-shadow: 0 0 5px currentColor,
+                 0 0 10px currentColor;
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.4),
+                 0 0 15px rgba(59, 130, 246, 0.2);
+  }
+
+  .text-glow-red {
+    text-shadow: 0 0 8px rgba(220, 38, 38, 0.4),
+                 0 0 15px rgba(220, 38, 38, 0.2);
+  }
+}
