@@ -4,7 +4,7 @@ import { Sphere, Torus, Octahedron } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Forme géométrique élégante et abstraite
-const FloatingOrb = ({ time, scrollProgress }: { time: number; scrollProgress: number }) => {
+const FloatingOrb = ({ time }: { time: number; scrollProgress: number }) => {
   const orbRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -87,7 +87,7 @@ const FloatingOrb = ({ time, scrollProgress }: { time: number; scrollProgress: n
 };
 
 // Particules flottantes autour de l'orbe principal
-const FloatingParticles = ({ time, scrollProgress }: { time: number; scrollProgress: number }) => {
+const FloatingParticles = ({ time }: { time: number; scrollProgress: number }) => {
   return (
     <>
       {[...Array(12)].map((_, i) => {
@@ -149,7 +149,7 @@ const FloatingElement = ({ scrollProgress }: { scrollProgress: number }) => {
   }, [scrollProgress]);
 
   // Animation fluide vers la position cible
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     timeRef.current += delta;
     
     if (groupRef.current) {
@@ -195,7 +195,7 @@ const ScrollRobot = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-40">
+    <div className="pointer-events-none fixed top-0 left-0 z-40 hidden h-full w-full lg:block">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
         style={{ width: '100%', height: '100%' }}

@@ -1,100 +1,90 @@
-import { Smartphone, Brain, Code, Database } from 'lucide-react';
+import { Smartphone, Brain, Code, Database, Server, Wrench } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Skills = () => {
   const skillCategories = [
     {
-      icon: Smartphone,
-      title: 'Développement Mobile',
-      color: 'from-primary-800 to-accent-800',
-      skills: [
-        { name: 'Flutter & Dart', level: 90 },
-        { name: 'Android/iOS', level: 85 },
-        { name: 'UI/UX Design', level: 80 },
-      ],
-    },
-    {
-      icon: Brain,
-      title: 'Intelligence Artificielle',
-      color: 'from-purple-500 to-pink-500',
-      skills: [
-        { name: 'Python', level: 85 },
-        { name: 'TensorFlow/Keras', level: 75 },
-        { name: 'Machine Learning', level: 80 },
-      ],
-    },
-    {
       icon: Code,
-      title: 'Développement Web',
-      color: 'from-primary-800 to-accent-800',
+      title: 'Frontend',
       skills: [
-        { name: 'JavaScript', level: 85 },
-        { name: 'Java', level: 80 },
-        { name: 'React', level: 75 },
+        { name: 'React', level: 92 },
+        { name: 'Angular', level: 80 },
+        { name: 'UI / UX & responsive', level: 85 },
+      ],
+    },
+    {
+      icon: Server,
+      title: 'Backend',
+      skills: [
+        { name: 'Java Spring Boot', level: 82 },
+        { name: 'API REST', level: 88 },
+        { name: 'POO & design patterns', level: 80 },
+      ],
+    },
+    {
+      icon: Smartphone,
+      title: 'Mobile',
+      skills: [
+        { name: 'Flutter & Dart', level: 88 },
+        { name: 'Android / iOS', level: 82 },
+        { name: 'Firebase', level: 85 },
       ],
     },
     {
       icon: Database,
-      title: 'Base de Données',
-      color: 'from-green-500 to-emerald-500',
+      title: 'Données & langages',
       skills: [
-        { name: 'SQL', level: 80 },
-        { name: 'Firebase', level: 85 },
-        { name: 'Data Processing', level: 75 },
+        { name: 'JavaScript / HTML / CSS', level: 90 },
+        { name: 'Java & SQL', level: 84 },
+        { name: 'Python', level: 78 },
       ],
     },
   ];
 
+  const tools = ['React', 'Angular', 'Vue.js', 'Spring Boot', 'Flutter', 'Firebase', 'Git', 'WordPress', 'Java', 'Python', 'SQL', 'Agile'];
+
   return (
-    <section id="skills" className="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-primary-950/30 to-transparent relative">
-      <div className="max-w-7xl w-full mx-auto">
+    <section id="skills" className="relative px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-14 text-center"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 drop-shadow-2xl" style={{ textRendering: 'optimizeLegibility', WebkitFontSmoothing: 'antialiased' }}>
-            <span className="bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300 bg-clip-text text-transparent" style={{ 
-              textShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 4px 8px rgba(0, 0, 0, 0.9)',
-              filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8))'
-            }}>
-              Compétences Techniques
-            </span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto rounded-full shadow-lg shadow-primary-500/50"></div>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Expertise</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">Compétences techniques</h2>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-6 md:grid-cols-2">
           {skillCategories.map((category, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
+              key={category.title}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/30 group hover:scale-[1.02]"
+              transition={{ delay: index * 0.08 }}
+              className="glass-card rounded-3xl p-7"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`bg-gradient-to-br ${category.color} w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <category.icon className="text-white" size={28} />
+              <div className="mb-6 flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500 to-primary-700 text-white">
+                  <category.icon size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-100">{category.title}</h3>
+                <h3 className="text-xl font-semibold text-white">{category.title}</h3>
               </div>
-
-              <div className="space-y-6">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300 font-medium">{skill.name}</span>
-                      <span className="text-primary-300 font-semibold" style={{ textShadow: '0 0 10px rgba(59, 130, 246, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8)' }}>{skill.level}%</span>
+              <div className="space-y-5">
+                {category.skills.map((skill) => (
+                  <div key={skill.name}>
+                    <div className="mb-2 flex justify-between text-sm">
+                      <span className="text-slate-200">{skill.name}</span>
+                      <span className="font-semibold text-gold-300">{skill.level}%</span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                    <div className="h-2 overflow-hidden rounded-full bg-slate-800">
                       <div
-                        className={`bg-gradient-to-r ${category.color} h-3 rounded-full transition-all duration-1000 ease-out`}
+                        className="h-full rounded-full bg-gradient-to-r from-gold-500 via-gold-400 to-primary-500"
                         style={{ width: `${skill.level}%` }}
-                      ></div>
+                      />
                     </div>
                   </div>
                 ))}
@@ -103,15 +93,18 @@ const Skills = () => {
           ))}
         </div>
 
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {['Flutter', 'Python', 'JavaScript', 'Firebase', 'TensorFlow', 'React', 'SQL', 'Java'].map((tech, index) => (
-            <div
-              key={index}
-              className="bg-slate-800/30 border border-slate-600 rounded-xl p-4 text-center hover:border-primary-800 hover:bg-primary-50 transition-all duration-300"
-            >
-              <span className="text-gray-300 font-medium">{tech}</span>
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {tools.map((tech) => (
+            <div key={tech} className="glass-card rounded-2xl px-3 py-3 text-center text-sm font-medium text-slate-200">
+              {tech}
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-2 text-sm text-slate-400">
+          <Wrench size={16} className="text-gold-400" />
+          Git, Firebase, WordPress — méthodes Agile
+          <Brain size={16} className="text-primary-300" />
         </div>
       </div>
     </section>

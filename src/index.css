@@ -8,9 +8,11 @@
   }
   
   body {
+    font-family: Outfit, system-ui, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: #020617;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -149,5 +151,36 @@
   .text-glow-red {
     text-shadow: 0 0 8px rgba(220, 38, 38, 0.4),
                  0 0 15px rgba(220, 38, 38, 0.2);
+  }
+
+  .gold-shimmer {
+    background: linear-gradient(90deg, #ead9a8, #d4af37, #f5edd4, #d4af37, #ead9a8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gold-shift 6s linear infinite;
+  }
+
+  @keyframes gold-shift {
+    to { background-position: 200% center; }
+  }
+
+  .glass-card {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.78));
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    backdrop-filter: blur(18px);
+  }
+
+  .orbit-ring {
+    animation: orbit-spin 28s linear infinite;
+  }
+
+  .orbit-counter {
+    animation: orbit-spin 28s linear infinite reverse;
+  }
+
+  @keyframes orbit-spin {
+    to { transform: rotate(360deg); }
   }
 }

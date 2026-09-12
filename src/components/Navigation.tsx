@@ -1,14 +1,12 @@
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { socialLinks, mailto, scrollToSection as smoothScroll } from '../config/site';
 
 const Logo = () => {
   return (
     <button
-      onClick={() => {
-        const element = document.getElementById('hero');
-        element?.scrollIntoView({ behavior: 'smooth' });
-      }}
+      onClick={() => smoothScroll('hero')}
       className="flex items-center justify-center hover:opacity-80 transition-all duration-300 group"
     >
       <img
@@ -51,15 +49,12 @@ const Navigation = ({ activeSection }: NavigationProps) => {
   ];
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false);
-    }
+    smoothScroll(id);
+    setIsOpen(false);
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-950/95 via-blue-950/95 to-slate-950/95 backdrop-blur-lg border-b border-primary-800/30 shadow-lg shadow-primary-900/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gold-500/15 bg-slate-950/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
@@ -74,8 +69,8 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                   onClick={() => scrollToSection(item.id)}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                     activeSection === item.id
-                      ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-md'
-                      : 'text-gray-300 hover:bg-slate-800 hover:text-primary-300'
+                    ? 'bg-gradient-to-r from-gold-600 to-gold-400 text-slate-950 shadow-md'
+                    : 'text-gray-300 hover:bg-slate-800 hover:text-gold-300'
                   }`}
                 >
                   {item.label}
@@ -233,7 +228,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                   <motion.a
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    href="https://github.com"
+                    href={socialLinks.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-primary-600 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 shadow-lg"
@@ -246,7 +241,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                   <motion.a
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    href="https://linkedin.com"
+                    href={socialLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-blue-600 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 shadow-lg"
@@ -259,7 +254,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                   <motion.a
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    href="mailto:kandilare20@gmail.com"
+                    href={mailto}
                     className="w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-accent-600 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 shadow-lg"
                     aria-label="Email"
                   >

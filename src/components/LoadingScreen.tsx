@@ -14,20 +14,20 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     // Séquence d'animation
     const timeline = setTimeout(() => {
       setStage('logo');
-    }, 2000); // Oiseau vole pendant 2 secondes
+    }, 700);
 
     const logoTimeout = setTimeout(() => {
       setStage('flash');
       setShowFlash(true);
-    }, 3500); // Logo apparaît après 1.5 secondes
+    }, 1300);
 
     const flashTimeout = setTimeout(() => {
       setStage('complete');
-    }, 5000); // Flash apparaît après 1.5 secondes
+    }, 1900);
 
     const completeTimeout = setTimeout(() => {
       onComplete();
-    }, 6500); // Transition vers le site après 1.5 secondes
+    }, 2400);
 
     return () => {
       clearTimeout(timeline);
@@ -245,7 +245,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                   repeat: Infinity,
                 }}
               >
-                Mon site vient
+                Bienvenue
               </motion.h2>
             </motion.div>
           )}
@@ -263,7 +263,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}
             transition={{ 
-              duration: 6,
+              duration: 2.2,
               ease: 'easeInOut',
             }}
           />

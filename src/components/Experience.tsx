@@ -1,116 +1,137 @@
-import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { liveLinks } from '../config/site';
 
 const Experience = () => {
   const experiences = [
     {
-      period: '2025',
+      period: '25/08/2025 – 10/03/2026',
       title: 'Développeur Web et Mobile',
       company: 'EDIBA INTER',
       location: 'Lomé, Togo',
-      description: 'Conception et développement d\'une application de gestion de facturation opérationnelle sous la direction de Mme Abide Alayi (Directrice d\'EDIBA INTER).',
+      link: liveLinks.ediba,
+      linkLabel: 'eip.edibainter.com',
+      description:
+        'Stage pratique : conception et déploiement d’une application web de facturation en React, consommée via API REST sécurisées, sous la direction de Mme Abidé Alayi. Solution aujourd’hui utilisée en production.',
       achievements: [
-        'Développement avec Flutter/Dart',
-        'Automatisation des processus internes',
-        'Interface utilisateur intuitive',
-        'Gestion complète de la facturation',
+        'Application web de facturation en production',
+        'Version mobile associée en Flutter / Dart',
+        'Sélectionné et parrainé par l’ANPE (09/2025)',
+        'Supports de communication visuelle et activités terrain',
       ],
-      color: 'from-cyan-500 to-blue-500',
     },
     {
-      period: 'Septembre 2025',
-      title: 'Programme d\'Insertion Professionnelle (ANPE)',
-      company: 'Parrainé par le Président du Conseil',
+      period: '2025 – 2026',
+      title: 'Co-développeur',
+      company: 'AC Barracuda',
       location: 'Lomé, Togo',
-      description: 'Participant sélectionné pour le programme d\'insertion professionnelle.',
+      description:
+        'Co-développement du site vitrine du club : actualités, calendrier et résultats, effectif — intégration des contenus et mise en page des sections.',
       achievements: [
-        'Sélection sur candidature',
-        'Conception d\'application pour EDIBA INTER',
-        'Automatisation des processus',
-        'Collaboration avec l\'équipe',
+        'Site vitrine officiel du club',
+        'Actualités, calendrier et résultats',
+        'Présentation de l’effectif',
       ],
-      color: 'from-purple-500 to-pink-500',
+    },
+    {
+      period: '2025 – 2026',
+      title: 'Développeur',
+      company: 'UCAO-UUT — MaCité+',
+      location: 'Lomé, Togo',
+      link: liveLinks.macite,
+      linkLabel: 'macite.edibainter.com',
+      description:
+        'Conception et développement en React de MaCité+, en autonomie totale, pour la gestion des résidences de la cité universitaire.',
+      achievements: [
+        'Interface utilisateur complète',
+        'Consommation d’API REST',
+        'Mise en production',
+      ],
+    },
+    {
+      period: '11/2025 – 12/2025',
+      title: 'Développeur Full Stack',
+      company: 'UCAO-UUT — RadApp',
+      location: 'Lomé, Togo',
+      description:
+        'Application de gestion de restaurant développée seul : backend Java Spring Boot (Gradle) et frontend Angular, avec documentation technique.',
+      achievements: [
+        'Modélisation et création de la base de données',
+        'Endpoints REST documentés',
+        'Connexion complète Angular ↔ API',
+      ],
     },
   ];
 
   return (
-    <section id="experience" className="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-accent-950/20 to-transparent relative">
-      <div className="max-w-7xl w-full mx-auto">
+    <section id="experience" className="relative px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-14 text-center"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 drop-shadow-2xl" style={{ textRendering: 'optimizeLegibility', WebkitFontSmoothing: 'antialiased' }}>
-            <span className="bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300 bg-clip-text text-transparent" style={{ 
-              textShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 4px 8px rgba(0, 0, 0, 0.9)',
-              filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8))'
-            }}>
-              Expériences Professionnelles
-            </span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto rounded-full shadow-lg shadow-primary-500/50"></div>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Parcours</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">Expériences professionnelles</h2>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
         </motion.div>
 
         <div className="relative">
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 via-primary-400 to-accent-500 shadow-lg shadow-primary-500/50"></div>
-
-          <div className="space-y-12">
+          <div className="absolute bottom-0 left-6 top-0 w-px bg-gradient-to-b from-gold-500 via-primary-500 to-transparent md:left-1/2" />
+          <div className="space-y-10">
             {experiences.map((exp, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={exp.title + exp.company}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`relative flex flex-col md:flex-row gap-8 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                transition={{ delay: index * 0.08 }}
+                className={`relative flex flex-col md:flex-row ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
               >
-                <div className="md:w-1/2 flex justify-end">
-                  <div
-                    className={`w-full bg-gradient-to-br from-slate-800/60 via-blue-900/20 to-slate-800/60 border border-primary-700/30 rounded-2xl p-8 hover:border-primary-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/40 hover:scale-[1.02] backdrop-blur-sm ${
-                      index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'
-                    }`}
-                  >
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className={`bg-gradient-to-br ${exp.color} p-3 rounded-lg`}>
-                        <Briefcase className="text-white" size={24} />
+                <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-10' : 'md:pl-10'}`}>
+                  <article className="glass-card ml-12 rounded-3xl p-6 md:ml-0">
+                    <div className="mb-4 flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500 to-primary-700 text-white">
+                        <Briefcase size={22} />
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">{exp.title}</h3>
-                        <p className="text-primary-400 font-semibold mb-1">{exp.company}</p>
-                        <div className="flex flex-wrap gap-3 text-sm text-gray-400">
-                          <div className="flex items-center gap-1">
-                            <Calendar size={16} />
-                            <span>{exp.period}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MapPin size={16} />
-                            <span>{exp.location}</span>
-                          </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white">{exp.title}</h3>
+                        <p className="font-semibold text-gold-300">{exp.company}</p>
+                        <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-400">
+                          <span className="inline-flex items-center gap-1">
+                            <Calendar size={14} /> {exp.period}
+                          </span>
+                          <span className="inline-flex items-center gap-1">
+                            <MapPin size={14} /> {exp.location}
+                          </span>
                         </div>
                       </div>
                     </div>
-
-                    <p className="text-gray-300 leading-relaxed mb-4">{exp.description}</p>
-
+                    <p className="mb-4 text-sm leading-relaxed text-slate-300">{exp.description}</p>
+                    {exp.link && (
+                      <a
+                        href={exp.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-gold-300 hover:text-gold-200"
+                      >
+                        <ExternalLink size={16} />
+                        {exp.linkLabel}
+                      </a>
+                    )}
                     <div className="space-y-2">
-                      {exp.achievements.map((achievement, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <CheckCircle className="text-primary-400 flex-shrink-0 mt-1" size={18} />
-                          <span className="text-gray-300 text-sm">{achievement}</span>
+                      {exp.achievements.map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-sm text-slate-300">
+                          <CheckCircle size={16} className="mt-0.5 shrink-0 text-gold-400" />
+                          {item}
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </article>
                 </div>
-
-                <div className="absolute left-8 md:left-1/2 top-8 w-4 h-4 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 transform -translate-x-1.5 ring-4 ring-slate-900 shadow-lg shadow-primary-500/50 glow-pulse"></div>
-
-                <div className="md:w-1/2"></div>
+                <div className="absolute left-6 top-8 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-gold-400 ring-4 ring-slate-950 md:left-1/2" />
+                <div className="hidden md:block md:w-1/2" />
               </motion.div>
             ))}
           </div>
