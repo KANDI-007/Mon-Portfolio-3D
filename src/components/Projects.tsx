@@ -285,7 +285,7 @@ const Projects = () => {
       company: 'EDIBA INTER',
       category: 'Web + Mobile',
       description:
-        'Application de facturation conçue de bout en bout et aujourd’hui utilisée en production. Version web React et version mobile Flutter.',
+        'Application de gestion de facturation en production : tableau de bord temps réel, chiffre d’affaires, encaissements, clients et fournisseurs. Version web React et mobile Flutter.',
       technologies: ['React', 'API REST', 'Flutter', 'Dart'],
       color: 'from-gold-600 to-primary-700',
       period: '2025 – 2026',

@@ -12,6 +12,8 @@ export const getImagePath = (folder: string, filename: string): string => {
 // Chemins des images pour chaque projet
 export const projectImages = {
   ediba: [
+    getImagePath('imageprojetEDIBA', '04-dashboard-2026.png'),
+    getImagePath('imageprojetEDIBA', '03-splash-2026.png'),
     getImagePath('imageprojetEDIBA', "Capture d'écran 2025-10-27 083238.png"),
     getImagePath('imageprojetEDIBA', "Capture d'écran 2025-11-07 162358.png"),
   ],
