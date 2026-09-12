@@ -1,8 +1,7 @@
 import { Sparkles, Lightbulb, Users, Award, Globe, Handshake, Calendar, MapPin, Car, Ruler } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { site } from '../config/site';
-
-const profilePhoto = new URL('../image/imageprofil/LARE.jpg', import.meta.url).href;
+import { portraitPhotos } from '../utils/imagePaths';
 
 const About = () => {
   const highlights = [
@@ -49,11 +48,16 @@ const About = () => {
             viewport={{ once: true }}
             className="flex justify-center md:justify-start"
           >
-            <div className="relative h-64 w-64 md:h-80 md:w-80">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gold-400/40 to-primary-600/30 blur-2xl" />
-              <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-gold-400/70 shadow-2xl shadow-gold-500/20">
-                <img src={profilePhoto} alt={site.name} className="h-full w-full object-cover object-top" />
+            <div className="relative w-full max-w-md">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-gold-400/40 to-primary-600/30 blur-2xl" />
+              <div className="relative overflow-hidden rounded-3xl border-2 border-gold-400/70 shadow-2xl shadow-gold-500/20">
+                <img
+                  src={portraitPhotos.desk}
+                  alt={`${site.name} au travail`}
+                  className="aspect-[4/5] w-full object-cover object-top"
+                />
               </div>
+              <p className="mt-3 text-center text-xs text-slate-400">Au bureau — conception et production</p>
             </div>
           </motion.div>
 
@@ -126,15 +130,23 @@ const About = () => {
                 ))}
               </div>
 
-              <div className="rounded-2xl border border-white/5 bg-slate-950/40 p-6">
-                <div className="mb-4 flex items-center gap-3">
-                  <Handshake className="text-gold-300" size={20} />
-                  <h4 className="font-semibold text-white">Leadership</h4>
+              <div className="overflow-hidden rounded-2xl border border-white/5 bg-slate-950/40">
+                <img
+                  src={portraitPhotos.leadership}
+                  alt="Semaine de l’étudiant 2025"
+                  className="h-36 w-full object-cover object-top"
+                />
+                <div className="p-5">
+                  <div className="mb-3 flex items-center gap-3">
+                    <Handshake className="text-gold-300" size={20} />
+                    <h4 className="font-semibold text-white">Leadership</h4>
+                  </div>
+                  <ul className="space-y-3 text-sm text-slate-200">
+                    <li>▸ Président — Résidence universitaire, UCAO-UUT (2025)</li>
+                    <li>▸ Délégué d’institut — coordination étudiants / administration</li>
+                    <li>▸ Semaine de l’étudiant 2025</li>
+                  </ul>
                 </div>
-                <ul className="space-y-3 text-sm text-slate-200">
-                  <li>▸ Président — Résidence universitaire, UCAO-UUT (2025)</li>
-                  <li>▸ Délégué d’institut — coordination étudiants / administration</li>
-                </ul>
               </div>
             </div>
           </div>

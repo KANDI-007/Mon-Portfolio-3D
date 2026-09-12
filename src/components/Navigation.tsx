@@ -41,6 +41,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
   const navItems = [
     { id: 'hero', label: 'Accueil' },
     { id: 'about', label: 'Profil' },
+    { id: 'gallery', label: 'Galerie' },
     { id: 'skills', label: 'Compétences' },
     { id: 'experience', label: 'Expériences' },
     { id: 'projects', label: 'Projets' },
@@ -67,7 +68,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                  className={`rounded-md px-2.5 py-2 text-sm font-medium transition-all duration-300 lg:px-3 ${
                     activeSection === item.id
                     ? 'bg-gradient-to-r from-gold-600 to-gold-400 text-slate-950 shadow-md'
                     : 'text-gray-300 hover:bg-slate-800 hover:text-gold-300'

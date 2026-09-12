@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Hero from './components/Hero';
 import About from './components/About';
+import Gallery from './components/Gallery';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
@@ -18,7 +19,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
+      const sections = ['hero', 'about', 'gallery', 'skills', 'experience', 'projects', 'education', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -45,6 +46,7 @@ function App() {
             <Navigation activeSection={activeSection} />
             <Hero />
             <About />
+            <Gallery />
             <Skills />
             <Experience />
             <Projects />

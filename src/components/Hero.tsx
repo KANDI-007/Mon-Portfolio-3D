@@ -14,7 +14,7 @@ import {
   scrollToSection,
 } from '../config/site';
 
-const profilePhoto = new URL('../image/imageprofil/LARE.jpg', import.meta.url).href;
+import { portraitPhotos } from '../utils/imagePaths';
 
 const AnimatedSphere = () => {
   const sphereRef = useRef<THREE.Mesh>(null);
@@ -195,18 +195,24 @@ const Hero = () => {
           transition={{ delay: 0.25, duration: 0.7 }}
           className="relative mx-auto flex w-full max-w-[420px] flex-col items-center justify-center py-10 lg:max-w-none lg:py-6"
         >
-          <div className="relative aspect-square w-full max-w-[380px]">
-            <div className="absolute inset-[-8%] rounded-full bg-gradient-to-br from-gold-400/25 via-blue-500/10 to-transparent blur-3xl" />
-            <div className="absolute inset-0 rounded-full border border-gold-400/30" />
-            <div className="absolute inset-[8%] overflow-hidden rounded-full border-4 border-gold-400/70 shadow-[0_0_50px_rgba(212,175,55,0.28)]">
-              <img src={profilePhoto} alt={site.name} className="h-full w-full object-cover object-top" />
+          <div className="relative w-full max-w-[340px]">
+            <div className="absolute inset-[-8%] rounded-[2rem] bg-gradient-to-br from-gold-400/25 via-blue-500/10 to-transparent blur-3xl" />
+            <div className="relative overflow-hidden rounded-[2rem] border-2 border-gold-400/60 shadow-[0_0_50px_rgba(212,175,55,0.28)]">
+              <img
+                src={portraitPhotos.hero}
+                alt={site.name}
+                width={680}
+                height={900}
+                fetchPriority="high"
+                className="aspect-[3/4] h-auto w-full object-cover object-[center_18%]"
+              />
             </div>
 
             <div className="pointer-events-none absolute inset-0 hidden sm:block">
               {orbitRoles.map((role, index) => {
                 const angle = (index / orbitRoles.length) * Math.PI * 2 - Math.PI / 2;
-                const x = 50 + Math.cos(angle) * 48;
-                const y = 50 + Math.sin(angle) * 48;
+                const x = 50 + Math.cos(angle) * 58;
+                const y = 50 + Math.sin(angle) * 52;
                 return (
                   <span
                     key={role}

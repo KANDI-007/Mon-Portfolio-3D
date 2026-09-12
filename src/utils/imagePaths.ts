@@ -62,3 +62,15 @@ export const projectImages = {
   ],
 };
 
+export const portraitPhotos = {
+  hero: getImagePath('imageprofil', 'hero-costume.png'),
+  costume: getImagePath('imageprofil', 'portrait-costume.png'),
+  desk: getImagePath('imageprofil', 'desk-laptop.png'),
+  leadership: getImagePath('imageprofil', 'leadership-semaine.jpg'),
+  polo: getImagePath('imageprofil', 'lifestyle-polo.jpg'),
+  casual: getImagePath('imageprofil', 'lifestyle-casual.jpg'),
+  id: getImagePath('imageprofil', 'LARE.jpg'),
+};
+
+export const presentationVideo = '/media/kandi-presentation.mp4';
+

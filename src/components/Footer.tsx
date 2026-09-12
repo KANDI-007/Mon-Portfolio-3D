@@ -22,6 +22,7 @@ const Footer = () => {
 
   const navLinks = [
     { id: 'about', label: 'Profil' },
+    { id: 'gallery', label: 'Galerie' },
     { id: 'skills', label: 'Compétences' },
     { id: 'experience', label: 'Expériences' },
     { id: 'projects', label: 'Projets' },
