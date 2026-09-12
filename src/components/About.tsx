@@ -133,8 +133,8 @@ const About = () => {
               <div className="overflow-hidden rounded-2xl border border-white/5 bg-slate-950/40">
                 <img
                   src={portraitPhotos.leadership}
-                  alt="Semaine de l’étudiant 2025"
-                  className="h-36 w-full object-cover object-top"
+                  alt="Équipe et leadership"
+                  className="aspect-[16/10] w-full bg-slate-950 object-contain sm:aspect-[16/9]"
                 />
                 <div className="p-5">
                   <div className="mb-3 flex items-center gap-3">
