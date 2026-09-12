@@ -5,7 +5,7 @@ export const site = {
   title: 'Développeur Full Stack',
   headline: 'Licence Informatique — Génie logiciel',
   tagline:
-    'Diplômé en informatique (UCAO-UUT, 2026). Je conçois des applications web et mobiles de bout en bout, de la base de données jusqu’à la mise en production.',
+    'Diplômé en informatique (UCAO-UUT, 2026). Je conçois des applications web et mobiles de bout en bout — Juris Academy, MaCité+, Motozil, EDIBA INTER — déjà en production.',
   email: 'kandilare20@gmail.com',
   phone: '+228 91 67 61 67',
   phoneTel: '+22891676167',
@@ -33,6 +33,8 @@ export const whatsappLink = `https://wa.me/${site.whatsapp}`;
 export const liveLinks = {
   ediba: 'https://eip.edibainter.com/',
   macite: 'https://macite.edibainter.com/',
+  juris: 'https://issj.edibainter.com/',
+  motozil: 'https://motozil.edibainter.com/',
   portfolio: site.website,
   edibaGithub: 'https://github.com/KANDI-007/ediba-inter',
   formulaireGithub: 'https://github.com/KANDI-007/formulaireUniversite',

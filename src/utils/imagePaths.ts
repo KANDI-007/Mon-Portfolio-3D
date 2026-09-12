@@ -39,5 +39,24 @@ export const projectImages = {
     getImagePath('imageKEY IMMO', "Capture d'écran 2025-07-23 114048.png"),
     getImagePath('imageKEY IMMO', "Capture d'écran 2025-08-05 154123.png"),
   ],
+  juris: [
+    getImagePath('imageJurisAcademy', '01-splash.png'),
+    getImagePath('imageJurisAcademy', '02-accueil.png'),
+    getImagePath('imageJurisAcademy', '03-menu.png'),
+    getImagePath('imageJurisAcademy', '04-cours.png'),
+    getImagePath('imageJurisAcademy', '05-forum.png'),
+    getImagePath('imageJurisAcademy', '06-profil.png'),
+  ],
+  macite: [
+    getImagePath('imageMacite', '01-splash.png'),
+    getImagePath('imageMacite', '02-accueil.png'),
+    getImagePath('imageMacite', '03-etudes.png'),
+    getImagePath('imageMacite', '04-jeux.png'),
+  ],
+  motozil: [
+    getImagePath('imageMotozil', '01-accueil.png'),
+    getImagePath('imageMotozil', '02-appareils.png'),
+    getImagePath('imageMotozil', '03-carte.png'),
+  ],
 };
 

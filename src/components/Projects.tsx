@@ -1,4 +1,4 @@
-import { ExternalLink, Calendar, Users, Image as ImageIcon, Filter, Github } from 'lucide-react';
+import { ExternalLink, Calendar, Users, Image as ImageIcon, Filter, Scale, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { projectImages } from '../utils/imagePaths';
@@ -16,8 +16,14 @@ type Project = {
   images: string[];
   categoryId: string;
   liveUrl?: string;
-  githubUrl?: string;
+  featured?: boolean;
 };
+
+const PhoneFrame = ({ src, alt, className = '' }: { src: string; alt: string; className?: string }) => (
+  <div className={`relative overflow-hidden rounded-[1.8rem] border-[3px] border-gold-400/50 bg-slate-950 shadow-[0_20px_60px_rgba(212,175,55,0.18)] ${className}`}>
+    <img src={src} alt={alt} className="block h-full w-full object-cover object-top" />
+  </div>
+);
 
 const ProjectPlaceholder = ({ title, color }: { title: string; color: string }) => (
   <div className={`relative h-full w-full overflow-hidden rounded-xl bg-gradient-to-br ${color} opacity-80`}>
@@ -69,7 +75,7 @@ const ProjectCard = ({
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="glass-card group overflow-hidden rounded-3xl"
     >
-      <div className="relative h-56 w-full overflow-hidden bg-slate-800 md:h-64">
+      <div className="relative h-72 w-full overflow-hidden bg-slate-950 md:h-80">
         {project.images?.[0] ? (
           <>
             <AnimatePresence mode="wait">
@@ -80,7 +86,7 @@ const ProjectCard = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                className="h-full w-full object-contain object-top"
               />
             </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
@@ -134,17 +140,6 @@ const ProjectCard = ({
               <ExternalLink size={16} />
             </a>
           )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-sm font-semibold text-white hover:border-gold-400/50"
-            >
-              <Github size={16} />
-              Code
-            </a>
-          )}
           {project.images.length > 0 && (
             <button
               type="button"
@@ -154,6 +149,84 @@ const ProjectCard = ({
               Galerie
             </button>
           )}
+        </div>
+      </div>
+    </motion.article>
+  );
+};
+
+const FeaturedJuris = ({
+  openGallery,
+}: {
+  openGallery: (images: string[], initialIndex: number, title: string) => void;
+}) => {
+  const shots = projectImages.juris;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="relative mb-14 overflow-hidden rounded-[2rem] border border-gold-400/30 bg-gradient-to-br from-slate-950 via-[#0b1430] to-slate-950 p-6 shadow-[0_0_80px_rgba(212,175,55,0.12)] md:p-10"
+    >
+      <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-gold-400/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-primary-600/20 blur-3xl" />
+
+      <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_1.15fr]">
+        <div>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-gold-300">
+            <Sparkles size={14} />
+            À la une
+          </div>
+          <div className="mb-3 flex items-center gap-3 text-gold-300">
+            <Scale size={22} />
+            <span className="text-sm font-medium">ISSJ · UCAO-UUT</span>
+          </div>
+          <h3 className="font-display text-4xl leading-tight text-white sm:text-5xl">Juris Academy</h3>
+          <p className="mt-2 text-sm uppercase tracking-[0.18em] text-gold-400">
+            Unis par le droit, guidé par l’excellence
+          </p>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+            Plateforme juridique complète pour les étudiants : cours et TD, annales, quiz, flashcards,
+            club des juristes, workgroup et forum. Conçue de bout en bout, déjà en ligne.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {['React', 'Mobile-first', 'Forum', 'Cours & annales'].map((tag) => (
+              <span key={tag} className="rounded-full border border-gold-400/25 px-3 py-1 text-xs text-gold-100">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={liveLinks.juris}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-300 px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-gold-500/25"
+            >
+              Ouvrir Juris Academy
+              <ExternalLink size={16} />
+            </a>
+            <button
+              type="button"
+              onClick={() => openGallery(shots, 0, 'Juris Academy')}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gold-400/40 px-6 py-3.5 text-sm font-semibold text-gold-200 hover:bg-gold-500/10"
+            >
+              Voir le chef-d’œuvre
+            </button>
+          </div>
+        </div>
+
+        <div className="relative mx-auto flex w-full max-w-[520px] items-end justify-center gap-3 sm:gap-4">
+          <button type="button" onClick={() => openGallery(shots, 0, 'Juris Academy')} className="hidden w-[28%] sm:block">
+            <PhoneFrame src={shots[0]} alt="Splash Juris Academy" className="translate-y-6" />
+          </button>
+          <button type="button" onClick={() => openGallery(shots, 1, 'Juris Academy')} className="z-10 w-[42%] sm:w-[38%]">
+            <PhoneFrame src={shots[1]} alt="Accueil Juris Academy" />
+          </button>
+          <button type="button" onClick={() => openGallery(shots, 3, 'Juris Academy')} className="w-[32%] sm:w-[28%]">
+            <PhoneFrame src={shots[3]} alt="Cours Juris Academy" className="translate-y-4" />
+          </button>
         </div>
       </div>
     </motion.article>
@@ -182,6 +255,32 @@ const Projects = () => {
 
   const projects: Project[] = [
     {
+      title: 'Motozil',
+      company: 'EDIBA INTER',
+      category: 'Localisation',
+      description:
+        'Application de localisation et de sécurité mobile : suivi GPS en temps réel, gestion d’appareils et agent iOS / Android.',
+      technologies: ['React', 'GPS', 'Cartes', 'Sécurité'],
+      color: 'from-sky-600 to-blue-800',
+      period: '2026',
+      images: projectImages.motozil,
+      categoryId: 'mobile',
+      liveUrl: liveLinks.motozil,
+    },
+    {
+      title: 'MaCité+',
+      company: 'UCAO-UUT',
+      category: 'Résidences',
+      description:
+        'Gestion des résidences universitaires : présence, loyer, études, actualités et jeux. Application complète, déjà en production.',
+      technologies: ['React', 'API REST', 'UI/UX'],
+      color: 'from-primary-600 to-cyan-600',
+      period: '2025 – 2026',
+      images: projectImages.macite,
+      categoryId: 'web',
+      liveUrl: liveLinks.macite,
+    },
+    {
       title: 'Facturation EDIBA INTER',
       company: 'EDIBA INTER',
       category: 'Web + Mobile',
@@ -193,21 +292,6 @@ const Projects = () => {
       images: projectImages.ediba,
       categoryId: 'web',
       liveUrl: liveLinks.ediba,
-      githubUrl: liveLinks.edibaGithub,
-    },
-    {
-      title: 'MaCité+',
-      company: 'UCAO-UUT',
-      category: 'Web',
-      description:
-        'Application React pour la gestion des résidences de la cité universitaire. Développée en autonomie, de l’interface à la mise en production.',
-      technologies: ['React', 'API REST', 'UI/UX'],
-      color: 'from-primary-600 to-cyan-600',
-      period: '2025 – 2026',
-      images: projectImages.formulaire,
-      categoryId: 'web',
-      liveUrl: liveLinks.macite,
-      githubUrl: liveLinks.citeGithub,
     },
     {
       title: 'RadApp',
@@ -255,18 +339,6 @@ const Projects = () => {
       images: projectImages.keyImmo,
       categoryId: 'mobile',
     },
-    {
-      title: 'Formulaire web UCAO',
-      company: 'UCAO-UUT',
-      category: 'Web',
-      description: 'Collecte et traitement de données académiques, avec interface d’administration.',
-      technologies: ['React', 'TypeScript', 'UI/UX'],
-      color: 'from-blue-600 to-indigo-600',
-      period: '2025',
-      images: projectImages.formulaire,
-      categoryId: 'web',
-      githubUrl: liveLinks.formulaireGithub,
-    },
   ];
 
   const filteredProjects =
@@ -284,6 +356,10 @@ const Projects = () => {
             Des applications réellement mises en production, pas seulement des maquettes.
           </p>
         </div>
+
+        {(selectedCategory === 'all' || selectedCategory === 'web' || selectedCategory === 'mobile') && (
+          <FeaturedJuris openGallery={openGallery} />
+        )}
 
         <div className="mb-8 flex flex-wrap items-center gap-2">
           <Filter size={18} className="text-gold-400" />

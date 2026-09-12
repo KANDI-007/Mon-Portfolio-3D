@@ -5,6 +5,36 @@ import { liveLinks } from '../config/site';
 const Experience = () => {
   const experiences = [
     {
+      period: '2026',
+      title: 'Développeur Full Stack',
+      company: 'Juris Academy — ISSJ',
+      location: 'Lomé, Togo',
+      link: liveLinks.juris,
+      linkLabel: 'issj.edibainter.com',
+      description:
+        'Conception et développement de Juris Academy, plateforme juridique complète pour les étudiants : cours, annales, quiz, flashcards, club et forum.',
+      achievements: [
+        'Application mobile-first en production',
+        'Cours, TD, annales et quiz par filière',
+        'Forum étudiant et workgroup',
+      ],
+    },
+    {
+      period: '2026',
+      title: 'Développeur',
+      company: 'Motozil — EDIBA INTER',
+      location: 'Lomé, Togo',
+      link: liveLinks.motozil,
+      linkLabel: 'motozil.edibainter.com',
+      description:
+        'Application de localisation et de sécurité mobile : suivi GPS, gestion d’appareils et agent iOS / Android.',
+      achievements: [
+        'Suivi GPS en temps réel',
+        'Gestion multi-appareils',
+        'Mise en production',
+      ],
+    },
+    {
       period: '25/08/2025 – 10/03/2026',
       title: 'Développeur Web et Mobile',
       company: 'EDIBA INTER',

@@ -98,12 +98,10 @@ const About = () => {
             </div>
 
             <p className="mb-8 max-w-4xl text-base leading-relaxed text-slate-200">
-              Jeune développeur diplômé en Informatique (Licence, Génie logiciel — UCAO-UUT, 2026), avec une
-              expérience concrète de conception d’applications web et mobiles, en environnement professionnel comme
-              académique. Maîtrise de React (MaCité+, EDIBA INTER — facturation en production) et expérience
-              Angular / Java Spring Boot à travers RadApp, une application de gestion de restaurant développée seul,
-              de bout en bout. À l’aise avec les API REST et la structuration de bases de données, rigoureux, autonome
-              et habitué au travail en équipe Agile.
+              Jeune développeur diplômé en Informatique (Licence, Génie logiciel — UCAO-UUT, 2026). Je livre des
+              applications en production : Juris Academy (plateforme juridique ISSJ), MaCité+ (résidences UCAO),
+              Motozil (localisation & sécurité) et la facturation EDIBA INTER. Maîtrise de React, expérience
+              Angular / Java Spring Boot (RadApp). Rigoureux, autonome, à l’aise avec les API REST et le travail Agile.
             </p>
 
             <div className="grid gap-6 sm:grid-cols-2">
