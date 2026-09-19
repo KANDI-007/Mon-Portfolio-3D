@@ -55,8 +55,8 @@ const AnimatedSphere = () => {
   );
 };
 
-/** Rayon orbital en % — assez grand pour ne pas chevaucher la photo (~42% de large) */
-const ORBIT_RADIUS = 48;
+/** Rayon orbital en % — juste hors de la photo agrandie */
+const ORBIT_RADIUS = 52;
 
 /**
  * Pastille en coordonnées polaires autour du centre 50/50.
@@ -88,7 +88,7 @@ const OrbitBadge = ({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1.05 + index * 0.06, type: 'spring', stiffness: 200, damping: 16 }}
       style={{ left, top, x: '-50%', y: '-50%' }}
-      className="orbit-badge pointer-events-none absolute z-30 rounded-full border border-gold-400/50 bg-slate-950/95 px-2 py-1 text-[9px] font-semibold tracking-wide text-gold-100 sm:px-3 sm:py-1.5 sm:text-[11px]"
+      className="orbit-badge pointer-events-none absolute z-30 rounded-full border border-gold-400/50 bg-slate-950/95 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-gold-100 sm:px-3.5 sm:py-1.5 sm:text-[12px]"
     >
       {role}
     </motion.span>
@@ -146,10 +146,10 @@ const OrbitPortrait = () => {
   return (
     <div
       ref={portraitRef}
-      className="relative mx-auto aspect-square w-[min(100%,300px)] sm:w-[min(100%,380px)] lg:w-[min(100%,420px)]"
+      className="relative mx-auto aspect-square w-[min(100%,340px)] sm:w-[min(100%,440px)] lg:w-[min(100%,500px)]"
     >
       {/* Halo derrière, même centre */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[65%] w-[65%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-gold-400/35 via-blue-500/20 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-gold-400/35 via-blue-500/20 to-transparent blur-3xl" />
 
       {/* Pastilles — centre géométrique 50% / 50% */}
       {orbitRoles.map((role, index) => {
@@ -169,10 +169,10 @@ const OrbitPortrait = () => {
         Wrapper STATIQUE pour le centrage (left/top + translate).
         Framer Motion ne doit PAS gérer le transform ici, sinon le -translate est écrasé.
       */}
-      <div className="absolute left-1/2 top-1/2 z-20 w-[42%] -translate-x-1/2 -translate-y-1/2 sm:w-[40%]">
+      <div className="absolute left-1/2 top-1/2 z-20 w-[58%] -translate-x-1/2 -translate-y-1/2 sm:w-[56%] lg:w-[54%]">
         <PhotoBurst show={burstShow} />
 
-        <div className="hero-photo-core overflow-hidden rounded-[1.25rem] border-2 border-gold-400/70 shadow-[0_0_40px_rgba(212,175,55,0.35)] sm:rounded-[1.6rem]">
+        <div className="hero-photo-core overflow-hidden rounded-[1.35rem] border-2 border-gold-400/70 shadow-[0_0_50px_rgba(212,175,55,0.4)] sm:rounded-[1.75rem]">
           <img
             src={portraitPhotos.hero}
             alt={site.name}
@@ -325,7 +325,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="relative order-1 flex w-full justify-center px-2 py-4 sm:px-4 lg:order-2 lg:py-2">
+        <div className="relative order-1 flex w-full justify-center px-1 py-6 sm:px-2 sm:py-4 lg:order-2 lg:py-2">
           <OrbitPortrait />
         </div>
       </div>
