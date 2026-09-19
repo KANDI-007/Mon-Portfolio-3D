@@ -1,97 +1,11 @@
 import { Briefcase, Calendar, MapPin, CheckCircle, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { liveLinks } from '../config/site';
+import { usePreferences } from '../context/PreferencesContext';
+import { getExperiences } from '../i18n/content';
 
 const Experience = () => {
-  const experiences = [
-    {
-      period: '2026',
-      title: 'Développeur Full Stack',
-      company: 'Juris Academy — ISSJ',
-      location: 'Lomé, Togo',
-      link: liveLinks.juris,
-      linkLabel: 'issj.edibainter.com',
-      description:
-        'Conception et développement de Juris Academy, plateforme juridique complète pour les étudiants : cours, annales, quiz, flashcards, club et forum.',
-      achievements: [
-        'Application mobile-first en production',
-        'Cours, TD, annales et quiz par filière',
-        'Forum étudiant et workgroup',
-      ],
-    },
-    {
-      period: '2026',
-      title: 'Développeur',
-      company: 'Motozil — EDIBA INTER',
-      location: 'Lomé, Togo',
-      link: liveLinks.motozil,
-      linkLabel: 'motozil.edibainter.com',
-      description:
-        'Application de localisation et de sécurité mobile : suivi GPS, gestion d’appareils et agent iOS / Android.',
-      achievements: [
-        'Suivi GPS en temps réel',
-        'Gestion multi-appareils',
-        'Mise en production',
-      ],
-    },
-    {
-      period: '25/08/2025 – 10/03/2026',
-      title: 'Développeur Web et Mobile',
-      company: 'EDIBA INTER',
-      location: 'Lomé, Togo',
-      link: liveLinks.ediba,
-      linkLabel: 'eip.edibainter.com',
-      description:
-        'Stage pratique : conception et déploiement d’une application web de facturation en React, consommée via API REST sécurisées, sous la direction de Mme Abidé Alayi. Solution aujourd’hui utilisée en production.',
-      achievements: [
-        'Application web de facturation en production',
-        'Version mobile associée en Flutter / Dart',
-        'Sélectionné et parrainé par l’ANPE (09/2025)',
-        'Supports de communication visuelle et activités terrain',
-      ],
-    },
-    {
-      period: '2025 – 2026',
-      title: 'Co-développeur',
-      company: 'AC Barracuda',
-      location: 'Lomé, Togo',
-      description:
-        'Co-développement du site vitrine du club : actualités, calendrier et résultats, effectif — intégration des contenus et mise en page des sections.',
-      achievements: [
-        'Site vitrine officiel du club',
-        'Actualités, calendrier et résultats',
-        'Présentation de l’effectif',
-      ],
-    },
-    {
-      period: '2025 – 2026',
-      title: 'Développeur',
-      company: 'UCAO-UUT — MaCité+',
-      location: 'Lomé, Togo',
-      link: liveLinks.macite,
-      linkLabel: 'macite.edibainter.com',
-      description:
-        'Conception et développement en React de MaCité+, en autonomie totale, pour la gestion des résidences de la cité universitaire.',
-      achievements: [
-        'Interface utilisateur complète',
-        'Consommation d’API REST',
-        'Mise en production',
-      ],
-    },
-    {
-      period: '11/2025 – 12/2025',
-      title: 'Développeur Full Stack',
-      company: 'UCAO-UUT — RadApp',
-      location: 'Lomé, Togo',
-      description:
-        'Application de gestion de restaurant développée seul : backend Java Spring Boot (Gradle) et frontend Angular, avec documentation technique.',
-      achievements: [
-        'Modélisation et création de la base de données',
-        'Endpoints REST documentés',
-        'Connexion complète Angular ↔ API',
-      ],
-    },
-  ];
+  const { t, lang } = usePreferences();
+  const experiences = getExperiences(lang);
 
   return (
     <section id="experience" className="relative px-4 py-20 sm:px-6 lg:px-8">
@@ -102,8 +16,8 @@ const Experience = () => {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Parcours</p>
-          <h2 className="font-display text-4xl text-white sm:text-5xl">Expériences professionnelles</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t.experience.eyebrow}</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">{t.experience.title}</h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
         </motion.div>
 
@@ -139,7 +53,7 @@ const Experience = () => {
                       </div>
                     </div>
                     <p className="mb-4 text-sm leading-relaxed text-slate-300">{exp.description}</p>
-                    {exp.link && (
+                    {'link' in exp && exp.link && (
                       <a
                         href={exp.link}
                         target="_blank"

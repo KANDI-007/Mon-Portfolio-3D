@@ -4,21 +4,23 @@ import { useState } from 'react';
 import { portraitPhotos, presentationVideo } from '../utils/imagePaths';
 import { site } from '../config/site';
 import ImageGallery from './ImageGallery';
-
-const tiles = [
-  { src: portraitPhotos.costume, label: 'Tenue professionnelle' },
-  { src: portraitPhotos.desk, label: 'Au bureau' },
-  { src: portraitPhotos.casual, label: 'Lifestyle' },
-  { src: portraitPhotos.leadership, label: 'Leadership & équipe' },
-];
+import { usePreferences } from '../context/PreferencesContext';
 
 const Gallery = () => {
+  const { t } = usePreferences();
   const [galleryState, setGalleryState] = useState({
     isOpen: false,
     images: [] as string[],
     initialIndex: 0,
     title: '',
   });
+
+  const tiles = [
+    { src: portraitPhotos.costume, label: t.gallery.costume },
+    { src: portraitPhotos.desk, label: t.gallery.desk },
+    { src: portraitPhotos.casual, label: t.gallery.casual },
+    { src: portraitPhotos.leadership, label: t.gallery.leadership },
+  ];
 
   const allPhotos = [
     portraitPhotos.hero,
@@ -47,12 +49,10 @@ const Gallery = () => {
           viewport={{ once: true }}
           className="mb-12 text-center"
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">En images</p>
-          <h2 className="font-display text-4xl text-white sm:text-5xl">Galerie</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t.gallery.eyebrow}</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">{t.gallery.title}</h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
-          <p className="mx-auto mt-4 max-w-xl text-sm text-slate-400">
-            Le même univers que le reste du site : costume, travail, campus et leadership.
-          </p>
+          <p className="mx-auto mt-4 max-w-xl text-sm text-slate-400">{t.gallery.subtitle}</p>
         </motion.div>
 
         <motion.article
@@ -70,39 +70,37 @@ const Gallery = () => {
             autoPlay
             controls
             preload="metadata"
-            aria-label={`Vidéo de présentation de ${site.name}`}
+            aria-label={`${t.gallery.presentation} — ${site.name}`}
           >
             <source src={presentationVideo} type="video/mp4" />
           </video>
           <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-slate-950/70 px-3 py-1 text-xs font-semibold text-gold-200 backdrop-blur">
             <Play size={12} />
-            Présentation
+            {t.gallery.presentation}
           </div>
         </motion.article>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {tiles.map((tile, index) => (
+          {tiles.map((tile) => (
             <motion.button
               key={tile.label}
               type="button"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.05 * index }}
               onClick={() => openPhoto(tile.src, tile.label)}
-              className="glass-card group relative min-h-[220px] overflow-hidden rounded-3xl text-left"
+              className="glass-card group relative overflow-hidden rounded-3xl text-left"
             >
               <img
                 src={tile.src}
                 alt={tile.label}
-                loading="lazy"
-                className="h-full min-h-[220px] w-full object-cover object-center transition duration-700 group-hover:scale-105"
+                className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent p-4">
-                <p className="flex items-center gap-2 text-sm font-medium text-white">
-                  <Camera size={14} className="text-gold-400" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent p-4">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold-200">
+                  <Camera size={14} />
                   {tile.label}
-                </p>
+                </span>
               </div>
             </motion.button>
           ))}

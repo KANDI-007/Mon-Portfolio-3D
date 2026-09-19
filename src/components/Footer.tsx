@@ -1,56 +1,51 @@
 import { Github, Linkedin, Mail, Phone, MapPin, Instagram } from 'lucide-react';
 import { socialLinks, site, mailto, telLink, scrollToSection } from '../config/site';
+import { usePreferences } from '../context/PreferencesContext';
 
-const Logo = () => {
-  return (
-    <img
-      src={new URL('../image/imagelogo/logo.png', import.meta.url).href}
-      alt="Kandi Salman LARE Logo"
-      className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
-      onError={(e) => {
-        console.error('Error loading logo');
-        const target = e.target as HTMLImageElement;
-        target.style.display = 'none';
-      }}
-    />
-  );
-};
+const Logo = () => (
+  <img
+    src={new URL('../image/imagelogo/logo.png', import.meta.url).href}
+    alt="Kandi Salman LARE Logo"
+    className="h-12 w-auto object-contain opacity-90 transition-opacity duration-300 hover:opacity-100"
+    onError={(e) => {
+      const target = e.target as HTMLImageElement;
+      target.style.display = 'none';
+    }}
+  />
+);
 
 const Footer = () => {
+  const { t } = usePreferences();
   const currentYear = new Date().getFullYear();
 
-
   const navLinks = [
-    { id: 'about', label: 'Profil' },
-    { id: 'gallery', label: 'Galerie' },
-    { id: 'skills', label: 'Compétences' },
-    { id: 'experience', label: 'Expériences' },
-    { id: 'projects', label: 'Projets' },
-    { id: 'education', label: 'Formation' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'about', label: t.nav.about },
+    { id: 'gallery', label: t.nav.gallery },
+    { id: 'skills', label: t.nav.skills },
+    { id: 'experience', label: t.nav.experience },
+    { id: 'projects', label: t.nav.projects },
+    { id: 'education', label: t.nav.education },
+    { id: 'contact', label: t.nav.contact },
   ];
 
   return (
     <footer className="border-t border-gold-500/15 bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* À propos */}
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mb-8 grid gap-8 md:grid-cols-3">
           <div>
             <div className="mb-4">
               <Logo />
             </div>
-            <h3 className="text-xl font-bold bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent mb-4">
+            <h3 className="mb-4 bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-xl font-bold text-transparent">
               Kandi Salman LARE
             </h3>
-            <p className="text-gray-300 text-sm leading-relaxed mb-4">
-              Développeur Full Stack diplômé, créateur d’applications web et mobiles mises en production.
-            </p>
+            <p className="mb-4 text-sm leading-relaxed text-gray-300">{t.footer.blurb}</p>
             <div className="flex gap-4">
               <a
                 href={socialLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300 group"
+                className="group flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300"
                 aria-label="GitHub"
               >
                 <Github className="text-gray-300 group-hover:text-white" size={20} />
@@ -59,7 +54,7 @@ const Footer = () => {
                 href={socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300 group"
+                className="group flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="text-gray-300 group-hover:text-white" size={20} />
@@ -68,14 +63,14 @@ const Footer = () => {
                 href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300 group"
+                className="group flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300"
                 aria-label="Instagram"
               >
                 <Instagram className="text-gray-300 group-hover:text-white" size={20} />
               </a>
               <a
                 href={mailto}
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300 group"
+                className="group flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-900 transition hover:border-gold-400 hover:text-gold-300"
                 aria-label="Email"
               >
                 <Mail className="text-gray-300 group-hover:text-white" size={20} />
@@ -83,15 +78,15 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Liens rapides */}
           <div>
-            <h3 className="text-gray-100 font-semibold mb-4">Navigation</h3>
+            <h3 className="mb-4 font-semibold text-gray-100">{t.footer.navigation}</h3>
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.id}>
                   <button
+                    type="button"
                     onClick={() => scrollToSection(link.id)}
-                    className="text-gray-300 hover:text-primary-400 transition-colors duration-300 text-sm"
+                    className="text-sm text-gray-300 transition-colors duration-300 hover:text-primary-400"
                   >
                     {link.label}
                   </button>
@@ -100,37 +95,36 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h3 className="text-gray-100 font-semibold mb-4">Contact</h3>
+            <h3 className="mb-4 font-semibold text-gray-100">{t.footer.contact}</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-gray-300">
                 <Mail size={16} className="text-primary-400" />
-                <a href={mailto} className="hover:text-gold-300 transition-colors">
+                <a href={mailto} className="transition-colors hover:text-gold-300">
                   {site.email}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-gray-300">
                 <Phone size={16} className="text-primary-400" />
-                <a href={telLink} className="hover:text-gold-300 transition-colors">
+                <a href={telLink} className="transition-colors hover:text-gold-300">
                   {site.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-gray-300">
                 <MapPin size={16} className="text-primary-400" />
-                <span>Lomé, Togo</span>
+                <span>{site.location}</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="border-t border-slate-800 pt-8 text-center">
-          <p className="text-gray-300 text-sm">
-            Copyright © {currentYear} <span className="text-primary-400 font-semibold">Kandi Salman LARE</span>. Tous droits réservés.
+          <p className="text-sm text-gray-300">
+            Copyright © {currentYear}{' '}
+            <span className="font-semibold text-primary-400">Kandi Salman LARE</span>. {t.footer.rights}
           </p>
-          <p className="text-gray-500 text-xs mt-2">
-            Fait avec <span className="text-red-500">❤️</span> à Lomé
+          <p className="mt-2 text-xs text-gray-500">
+            {t.footer.made} <span className="text-red-500">❤️</span> {t.footer.inLome}
           </p>
         </div>
       </div>
@@ -139,4 +133,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

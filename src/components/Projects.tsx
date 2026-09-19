@@ -4,6 +4,9 @@ import { useRef, useState, useEffect } from 'react';
 import { projectImages } from '../utils/imagePaths';
 import ImageGallery from './ImageGallery';
 import { liveLinks } from '../config/site';
+import { usePreferences } from '../context/PreferencesContext';
+import { getProjects } from '../i18n/content';
+import type { TranslationTree } from '../i18n/translations';
 
 type Project = {
   title: string;
@@ -42,10 +45,12 @@ const ProjectCard = ({
   project,
   index,
   openGallery,
+  labels,
 }: {
   project: Project;
   index: number;
   openGallery: (images: string[], initialIndex: number, title: string) => void;
+  labels: TranslationTree['projects'];
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -99,7 +104,7 @@ const ProjectCard = ({
                 onClick={handleViewMore}
                 className="absolute inset-0 flex items-center justify-center bg-slate-950/0 opacity-0 transition group-hover:bg-slate-950/40 group-hover:opacity-100"
               >
-                <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900">Voir les images</span>
+                <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900">{labels.galleryBtn}</span>
               </button>
             )}
           </>
@@ -136,7 +141,7 @@ const ProjectCard = ({
               rel="noopener noreferrer"
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2.5 text-sm font-semibold text-slate-950"
             >
-              Visiter le site
+              {labels.visit}
               <ExternalLink size={16} />
             </a>
           )}
@@ -146,7 +151,7 @@ const ProjectCard = ({
               onClick={handleViewMore}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-sm font-semibold text-white hover:border-gold-400/50"
             >
-              Galerie
+              {labels.galleryBtn}
             </button>
           )}
         </div>
@@ -157,8 +162,10 @@ const ProjectCard = ({
 
 const FeaturedJuris = ({
   openGallery,
+  labels,
 }: {
   openGallery: (images: string[], initialIndex: number, title: string) => void;
+  labels: TranslationTree['projects'];
 }) => {
   const shots = projectImages.juris;
 
@@ -176,20 +183,15 @@ const FeaturedJuris = ({
         <div>
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-gold-300">
             <Sparkles size={14} />
-            À la une
+            {labels.featured}
           </div>
           <div className="mb-3 flex items-center gap-3 text-gold-300">
             <Scale size={22} />
             <span className="text-sm font-medium">ISSJ · UCAO-UUT</span>
           </div>
           <h3 className="font-display text-4xl leading-tight text-white sm:text-5xl">Juris Academy</h3>
-          <p className="mt-2 text-sm uppercase tracking-[0.18em] text-gold-400">
-            Unis par le droit, guidé par l’excellence
-          </p>
-          <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-            Plateforme juridique complète pour les étudiants : cours et TD, annales, quiz, flashcards,
-            club des juristes, workgroup et forum. Conçue de bout en bout, déjà en ligne.
-          </p>
+          <p className="mt-2 text-sm uppercase tracking-[0.18em] text-gold-400">{labels.jurisSlogan}</p>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">{labels.jurisDesc}</p>
           <div className="mt-5 flex flex-wrap gap-2">
             {['React', 'Mobile-first', 'Forum', 'Cours & annales'].map((tag) => (
               <span key={tag} className="rounded-full border border-gold-400/25 px-3 py-1 text-xs text-gold-100">
@@ -204,7 +206,7 @@ const FeaturedJuris = ({
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-300 px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-gold-500/25"
             >
-              Ouvrir Juris Academy
+              {labels.openJuris}
               <ExternalLink size={16} />
             </a>
             <button
@@ -212,7 +214,7 @@ const FeaturedJuris = ({
               onClick={() => openGallery(shots, 0, 'Juris Academy')}
               className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gold-400/40 px-6 py-3.5 text-sm font-semibold text-gold-200 hover:bg-gold-500/10"
             >
-              Voir le chef-d’œuvre
+              {labels.seeMasterpiece}
             </button>
           </div>
         </div>
@@ -234,6 +236,7 @@ const FeaturedJuris = ({
 };
 
 const Projects = () => {
+  const { t, lang } = usePreferences();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [galleryState, setGalleryState] = useState({
     isOpen: false,
@@ -247,99 +250,13 @@ const Projects = () => {
   };
 
   const categories = [
-    { id: 'all', label: 'Tout' },
-    { id: 'web', label: 'Web' },
-    { id: 'mobile', label: 'Mobile' },
-    { id: 'fullstack', label: 'Full Stack' },
+    { id: 'all', label: t.projects.all },
+    { id: 'web', label: t.projects.web },
+    { id: 'mobile', label: t.projects.mobile },
+    { id: 'fullstack', label: t.projects.fullstack },
   ];
 
-  const projects: Project[] = [
-    {
-      title: 'Motozil',
-      company: 'EDIBA INTER',
-      category: 'Localisation',
-      description:
-        'Application de localisation et de sécurité mobile : suivi GPS en temps réel, gestion d’appareils et agent iOS / Android.',
-      technologies: ['React', 'GPS', 'Cartes', 'Sécurité'],
-      color: 'from-sky-600 to-blue-800',
-      period: '2026',
-      images: projectImages.motozil,
-      categoryId: 'mobile',
-      liveUrl: liveLinks.motozil,
-    },
-    {
-      title: 'MaCité+',
-      company: 'UCAO-UUT',
-      category: 'Résidences',
-      description:
-        'Gestion des résidences universitaires : présence, loyer, études, actualités et jeux. Application complète, déjà en production.',
-      technologies: ['React', 'API REST', 'UI/UX'],
-      color: 'from-primary-600 to-cyan-600',
-      period: '2025 – 2026',
-      images: projectImages.macite,
-      categoryId: 'web',
-      liveUrl: liveLinks.macite,
-    },
-    {
-      title: 'Facturation EDIBA INTER',
-      company: 'EDIBA INTER',
-      category: 'Web + Mobile',
-      description:
-        'Application de gestion de facturation en production : tableau de bord temps réel, chiffre d’affaires, encaissements, clients et fournisseurs. Version web React et mobile Flutter.',
-      technologies: ['React', 'API REST', 'Flutter', 'Dart'],
-      color: 'from-gold-600 to-primary-700',
-      period: '2025 – 2026',
-      images: projectImages.ediba,
-      categoryId: 'web',
-      liveUrl: liveLinks.ediba,
-    },
-    {
-      title: 'RadApp',
-      company: 'UCAO-UUT',
-      category: 'Full Stack',
-      description:
-        'Gestion de restaurant développée seul : backend Java Spring Boot et frontend Angular, base de données et documentation API.',
-      technologies: ['Angular', 'Spring Boot', 'Java', 'SQL'],
-      color: 'from-rose-600 to-orange-500',
-      period: '11/2025 – 12/2025',
-      images: [],
-      categoryId: 'fullstack',
-    },
-    {
-      title: 'Site AC Barracuda',
-      company: 'AC Barracuda',
-      category: 'Web',
-      description:
-        'Co-développement du site vitrine du club : actualités, calendrier, résultats et effectif.',
-      technologies: ['Web', 'Intégration', 'UI'],
-      color: 'from-emerald-600 to-teal-600',
-      period: '2025 – 2026',
-      images: [],
-      categoryId: 'web',
-    },
-    {
-      title: 'Réservation médicale',
-      company: 'Projet étudiant',
-      category: 'Mobile',
-      description: 'Application Flutter de prise de rendez-vous médicaux, avec authentification et stockage sécurisé.',
-      technologies: ['Flutter', 'Firebase', 'Auth'],
-      color: 'from-purple-600 to-pink-600',
-      period: '2024',
-      images: projectImages.medical,
-      categoryId: 'mobile',
-    },
-    {
-      title: 'KEY IMMO',
-      company: 'Projet immobilier',
-      category: 'Mobile',
-      description: 'Application de catalogue immobilier : recherche, visites et suivi des prospects.',
-      technologies: ['Flutter', 'Firebase', 'Maps'],
-      color: 'from-green-600 to-emerald-500',
-      period: '2025',
-      images: projectImages.keyImmo,
-      categoryId: 'mobile',
-    },
-  ];
+  const projects = getProjects(lang) as Project[];
 
   const filteredProjects =
     selectedCategory === 'all' ? projects : projects.filter((p) => p.categoryId === selectedCategory);
@@ -349,16 +266,14 @@ const Projects = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Portfolio</p>
-            <h2 className="font-display text-4xl text-white sm:text-5xl">Mes réalisations</h2>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t.projects.eyebrow}</p>
+            <h2 className="font-display text-4xl text-white sm:text-5xl">{t.projects.title}</h2>
           </div>
-          <p className="max-w-md text-sm italic text-slate-400">
-            Des applications réellement mises en production, pas seulement des maquettes.
-          </p>
+          <p className="max-w-md text-sm italic text-slate-400">{t.projects.quote}</p>
         </div>
 
         {(selectedCategory === 'all' || selectedCategory === 'web' || selectedCategory === 'mobile') && (
-          <FeaturedJuris openGallery={openGallery} />
+          <FeaturedJuris openGallery={openGallery} labels={t.projects} />
         )}
 
         <div className="mb-8 flex flex-wrap items-center gap-2">
@@ -381,7 +296,13 @@ const Projects = () => {
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} openGallery={openGallery} />
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={index}
+              openGallery={openGallery}
+              labels={t.projects}
+            />
           ))}
         </div>
 

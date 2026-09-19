@@ -14,6 +14,7 @@ import {
   scrollToSection,
 } from '../config/site';
 import { portraitPhotos } from '../utils/imagePaths';
+import { usePreferences } from '../context/PreferencesContext';
 
 const AnimatedSphere = () => {
   const sphereRef = useRef<THREE.Mesh>(null);
@@ -189,6 +190,7 @@ const OrbitPortrait = () => {
 
 const Hero = () => {
   const [showCanvas, setShowCanvas] = useState(false);
+  const { t, lang } = usePreferences();
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 1024px)').matches;
@@ -201,9 +203,12 @@ const Hero = () => {
     { icon: MapPin, text: site.location, link: site.mapsUrl },
   ];
 
+  const title = lang === 'en' ? 'Full Stack Developer' : site.title;
+  const tagline = t.hero.tagline;
+
   return (
     <section id="hero" className="relative min-h-[100svh] overflow-hidden px-4 pb-16 pt-24 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(212,175,55,0.14),transparent_42%),radial-gradient(circle_at_85%_10%,rgba(37,99,235,0.18),transparent_40%),linear-gradient(180deg,#020617,#0b1224 55%,#020617)]" />
+      <div className="hero-bg absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(212,175,55,0.14),transparent_42%),radial-gradient(circle_at_85%_10%,rgba(37,99,235,0.18),transparent_40%),linear-gradient(180deg,#020617,#0b1224 55%,#020617)]" />
 
       {showCanvas && (
         <div className="pointer-events-none absolute right-[-8%] top-16 hidden h-[560px] w-[560px] opacity-50 lg:block">
@@ -225,7 +230,7 @@ const Hero = () => {
             transition={{ delay: 0.85 }}
             className="font-display text-2xl text-gold-300 sm:text-3xl"
           >
-            Hello
+            {t.hero.hello}
           </motion.p>
 
           <motion.div
@@ -234,10 +239,10 @@ const Hero = () => {
             transition={{ delay: 0.95 }}
           >
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.28em] text-gold-400">
-              {site.title}
+              {title}
             </p>
             <h1 className="font-display text-5xl leading-[0.95] sm:text-7xl">
-              <span className="block text-white">Je suis</span>
+              <span className="block text-white">{t.hero.iAm}</span>
               <span className="gold-shimmer block">{site.firstName}</span>
               <span className="block text-gold-400">{site.lastName}</span>
             </h1>
@@ -249,7 +254,7 @@ const Hero = () => {
             transition={{ delay: 1.05 }}
             className="max-w-xl text-base leading-relaxed text-slate-200 sm:text-lg"
           >
-            {site.tagline}
+            {tagline}
           </motion.p>
 
           <motion.div
@@ -285,15 +290,15 @@ const Hero = () => {
               onClick={() => scrollToSection('projects')}
               className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-300 px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-gold-500/30 transition hover:scale-[1.03]"
             >
-              Voir mes projets
+              {t.hero.viewProjects}
               <ArrowRight size={18} />
             </button>
             <button
               type="button"
               onClick={() => scrollToSection('contact')}
-              className="inline-flex items-center gap-2 rounded-2xl border border-gold-400/50 px-6 py-3.5 text-sm font-semibold text-gold-200 transition hover:bg-gold-500/10"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gold-400/50 px-6 py-3.5 text-sm font-semibold text-gold-200 transition hover:bg-gold-500/10"
             >
-              Me contacter
+              {t.hero.contactMe}
             </button>
             <a
               href={site.cvHref}
@@ -301,7 +306,7 @@ const Hero = () => {
               className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-gold-400/60 hover:text-gold-200"
             >
               <Download size={18} />
-              Télécharger le CV
+              {t.hero.downloadCv}
             </a>
           </motion.div>
 

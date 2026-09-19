@@ -1,7 +1,10 @@
 import { Smartphone, Brain, Code, Database, Server, Wrench } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { usePreferences } from '../context/PreferencesContext';
 
 const Skills = () => {
+  const { t, lang } = usePreferences();
+
   const skillCategories = [
     {
       icon: Code,
@@ -18,7 +21,7 @@ const Skills = () => {
       skills: [
         { name: 'Java Spring Boot', level: 82 },
         { name: 'API REST', level: 88 },
-        { name: 'POO & design patterns', level: 80 },
+        { name: lang === 'en' ? 'OOP & design patterns' : 'POO & design patterns', level: 80 },
       ],
     },
     {
@@ -32,7 +35,7 @@ const Skills = () => {
     },
     {
       icon: Database,
-      title: 'Données & langages',
+      title: lang === 'en' ? 'Data & languages' : 'Données & langages',
       skills: [
         { name: 'JavaScript / HTML / CSS', level: 90 },
         { name: 'Java & SQL', level: 84 },
@@ -52,8 +55,8 @@ const Skills = () => {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Expertise</p>
-          <h2 className="font-display text-4xl text-white sm:text-5xl">Compétences techniques</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t.skills.eyebrow}</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">{t.skills.title}</h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
         </motion.div>
 
@@ -103,7 +106,7 @@ const Skills = () => {
 
         <div className="mt-8 flex items-center justify-center gap-2 text-sm text-slate-400">
           <Wrench size={16} className="text-gold-400" />
-          Git, Firebase, WordPress — méthodes Agile
+          {t.skills.footer}
           <Brain size={16} className="text-primary-300" />
         </div>
       </div>

@@ -13,6 +13,153 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #020617;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  /* —— Mode clair chic : ivoire froid, encre navy, or champagne —— */
+  html.light {
+    color-scheme: light;
+  }
+
+  html.light body {
+    background: #f3f0ea;
+    color: #1a2332;
+  }
+
+  html.light .app-shell {
+    background: #f3f0ea !important;
+    color: #1a2332 !important;
+  }
+
+  html.light .app-atmosphere {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(184, 148, 46, 0.14), transparent 38%),
+      radial-gradient(circle at 88% 18%, rgba(30, 64, 120, 0.1), transparent 42%),
+      linear-gradient(180deg, #f7f4ee 0%, #efeae1 48%, #f3f0ea 100%) !important;
+  }
+
+  html.light .site-nav {
+    background: rgba(255, 252, 247, 0.92) !important;
+    border-color: rgba(184, 148, 46, 0.28) !important;
+  }
+
+  html.light .glass-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(250, 247, 240, 0.88)) !important;
+    border-color: rgba(184, 148, 46, 0.28) !important;
+    box-shadow: 0 12px 40px rgba(26, 35, 50, 0.08);
+  }
+
+  html.light .orbit-badge {
+    background: rgba(255, 252, 247, 0.92) !important;
+    color: #1a2332 !important;
+    box-shadow:
+      0 0 0 1px rgba(184, 148, 46, 0.35),
+      0 8px 24px rgba(26, 35, 50, 0.12);
+  }
+
+  html.light .bg-slate-950,
+  html.light .bg-slate-900,
+  html.light .bg-\[\#050b18\] {
+    background-color: #f7f4ee !important;
+  }
+
+  html.light .bg-slate-950\/90,
+  html.light .bg-slate-950\/95,
+  html.light .bg-slate-900\/80,
+  html.light .bg-slate-900\/60 {
+    background-color: rgba(255, 252, 247, 0.92) !important;
+  }
+
+  html.light .text-white,
+  html.light .text-gray-100,
+  html.light .text-slate-100 {
+    color: #152033 !important;
+  }
+
+  html.light .text-gray-300,
+  html.light .text-slate-200,
+  html.light .text-slate-300 {
+    color: #3a4658 !important;
+  }
+
+  html.light .text-gray-400,
+  html.light .text-slate-400,
+  html.light .text-gray-500 {
+    color: #5c6b7e !important;
+  }
+
+  html.light .text-gold-200,
+  html.light .text-gold-300 {
+    color: #8a6d16 !important;
+  }
+
+  html.light .text-gold-400 {
+    color: #9a7a1a !important;
+  }
+
+  html.light .border-white\/10,
+  html.light .border-white\/15 {
+    border-color: rgba(26, 35, 50, 0.12) !important;
+  }
+
+  html.light .border-gold-500\/15,
+  html.light .border-gold-400\/30,
+  html.light .border-gold-400\/40,
+  html.light .border-gold-400\/50 {
+    border-color: rgba(184, 148, 46, 0.35) !important;
+  }
+
+  html.light .hover\:bg-slate-800:hover,
+  html.light .hover\:bg-slate-800\/50:hover {
+    background-color: rgba(26, 35, 50, 0.06) !important;
+  }
+
+  html.light footer {
+    background: #ebe6dc !important;
+    border-color: rgba(184, 148, 46, 0.25) !important;
+  }
+
+  html.light .gold-shimmer {
+    background: linear-gradient(90deg, #8a6d16, #c9a227, #a8841c, #c9a227, #8a6d16);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  html.light .hero-bg {
+    background:
+      radial-gradient(circle at 15% 20%, rgba(184, 148, 46, 0.16), transparent 42%),
+      radial-gradient(circle at 85% 10%, rgba(30, 64, 120, 0.12), transparent 40%),
+      linear-gradient(180deg, #f7f4ee, #efeae1 55%, #f3f0ea) !important;
+  }
+
+  html.light .ring-slate-950 {
+    --tw-ring-color: #f3f0ea !important;
+  }
+
+  html.light .site-nav .bg-slate-900\/80,
+  html.light .site-nav .bg-slate-800 {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  html.light .site-nav .text-slate-400 {
+    color: #5c6b7e !important;
+  }
+
+  html.light .from-slate-950,
+  html.light .via-\[\#0b1430\],
+  html.light .to-slate-950 {
+    --tw-gradient-from: #f7f4ee var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: #ebe6dc var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), #e8e2d6, var(--tw-gradient-to) !important;
+  }
+
+  html.light input,
+  html.light textarea {
+    background-color: #fffefb !important;
+    color: #152033 !important;
+    border-color: rgba(26, 35, 50, 0.14) !important;
   }
   
   h1, h2, h3, h4, h5, h6 {

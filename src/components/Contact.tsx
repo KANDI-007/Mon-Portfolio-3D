@@ -2,10 +2,12 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, CheckCircle, XC
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { site, socialLinks, mailto, telLink, whatsappLink } from '../config/site';
+import { usePreferences } from '../context/PreferencesContext';
 
 const handshake = new URL('../image/decor/handshake-globe.jpg', import.meta.url).href;
 
 const Contact = () => {
+  const { t, lang } = usePreferences();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -17,11 +19,9 @@ const Contact = () => {
 
     try {
       const whatsappMessage =
-        `*Nouveau message du portfolio*\n\n` +
-        `*Nom:* ${formData.name}\n` +
-        `*Email:* ${formData.email}\n` +
-        `*Sujet:* ${formData.subject}\n\n` +
-        `*Message:*\n${formData.message}`;
+        lang === 'en'
+          ? `*New portfolio message*\n\n*Name:* ${formData.name}\n*Email:* ${formData.email}\n*Subject:* ${formData.subject}\n\n*Message:*\n${formData.message}`
+          : `*Nouveau message du portfolio*\n\n*Nom:* ${formData.name}\n*Email:* ${formData.email}\n*Sujet:* ${formData.subject}\n\n*Message:*\n${formData.message}`;
       window.open(`${whatsappLink}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
       await new Promise((resolve) => setTimeout(resolve, 600));
       setSubmitStatus('success');
@@ -44,21 +44,21 @@ const Contact = () => {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Contact</p>
-          <h2 className="font-display text-4xl text-white sm:text-5xl">Restons en contact</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t.contact.eyebrow}</p>
+          <h2 className="font-display text-4xl text-white sm:text-5xl">{t.contact.title}</h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-gold-500 to-primary-500" />
-          <p className="mt-4 text-slate-300">Stage, freelance, collaboration — je suis disponible.</p>
+          <p className="mt-4 text-slate-300">{t.contact.subtitle}</p>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <div className="glass-card overflow-hidden rounded-3xl">
-              <img src={handshake} alt="Partenariat et collaboration" className="h-48 w-full object-cover" />
+              <img src={handshake} alt="" className="h-48 w-full object-cover" />
               <div className="space-y-4 p-6">
                 {[
-                  { icon: Mail, label: 'Email', value: site.email, href: mailto },
-                  { icon: Phone, label: 'Téléphone', value: site.phone, href: telLink },
-                  { icon: MapPin, label: 'Localisation', value: site.location, href: site.mapsUrl },
+                  { icon: Mail, label: t.contact.email, value: site.email, href: mailto },
+                  { icon: Phone, label: t.contact.phone, value: site.phone, href: telLink },
+                  { icon: MapPin, label: t.contact.location, value: site.location, href: site.mapsUrl },
                 ].map((item) => (
                   <a
                     key={item.label}
@@ -99,10 +99,11 @@ const Contact = () => {
             </div>
 
             <div className="glass-card rounded-3xl p-6">
-              <h3 className="mb-2 text-lg font-semibold text-white">Disponibilité</h3>
+              <h3 className="mb-2 text-lg font-semibold text-white">{t.contact.availability}</h3>
               <p className="text-sm leading-relaxed text-slate-300">
-                Je suis <strong className="text-gold-300">disponible</strong> pour un stage, une mission freelance
-                ou une collaboration full stack (React, Flutter, Spring Boot).
+                {t.contact.availabilityText.split(t.contact.available)[0]}
+                <strong className="text-gold-300">{t.contact.available}</strong>
+                {t.contact.availabilityText.split(t.contact.available)[1]}
               </p>
             </div>
           </div>
@@ -112,13 +113,13 @@ const Contact = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-500/15 text-gold-300">
                 <Send size={18} />
               </div>
-              <h3 className="text-xl font-bold text-white">Envoyer un message</h3>
+              <h3 className="text-xl font-bold text-white">{t.contact.sendTitle}</h3>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               {[
-                { id: 'name', label: 'Nom complet', type: 'text', placeholder: 'Votre nom' },
-                { id: 'email', label: 'Email', type: 'email', placeholder: 'vous@email.com' },
-                { id: 'subject', label: 'Sujet', type: 'text', placeholder: 'Objet du message' },
+                { id: 'name', label: t.contact.fullName, type: 'text', placeholder: t.contact.namePh },
+                { id: 'email', label: t.contact.email, type: 'email', placeholder: t.contact.emailPh },
+                { id: 'subject', label: t.contact.subject, type: 'text', placeholder: t.contact.subjectPh },
               ].map((field) => (
                 <div key={field.id}>
                   <label htmlFor={field.id} className="mb-2 block text-sm text-slate-300">
@@ -138,7 +139,7 @@ const Contact = () => {
               ))}
               <div>
                 <label htmlFor="message" className="mb-2 block text-sm text-slate-300">
-                  Message
+                  {t.contact.message}
                 </label>
                 <textarea
                   id="message"
@@ -147,7 +148,7 @@ const Contact = () => {
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Votre message..."
+                  placeholder={t.contact.messagePh}
                   className="w-full resize-none rounded-xl border border-white/10 bg-slate-900/70 px-4 py-3 text-white outline-none ring-gold-400/40 placeholder:text-slate-500 focus:ring-2"
                 />
               </div>
@@ -156,18 +157,18 @@ const Contact = () => {
                 disabled={isSubmitting}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 py-3.5 font-semibold text-slate-950 disabled:opacity-60"
               >
-                {isSubmitting ? 'Ouverture de WhatsApp...' : 'Envoyer via WhatsApp'}
+                {isSubmitting ? t.contact.sending : t.contact.send}
                 <Send size={18} />
               </button>
               {submitStatus === 'success' && (
                 <p className="flex items-center gap-2 text-sm text-emerald-300">
-                  <CheckCircle size={16} /> WhatsApp s’ouvre pour finaliser l’envoi.
+                  <CheckCircle size={16} /> {t.contact.success}
                 </p>
               )}
               {submitStatus === 'error' && (
                 <p className="flex items-center gap-2 text-sm text-red-300">
                   <XCircle size={16} />
-                  Erreur. Écrivez-moi directement à{' '}
+                  {t.contact.error}{' '}
                   <a href={mailto} className="underline">
                     {site.email}
                   </a>

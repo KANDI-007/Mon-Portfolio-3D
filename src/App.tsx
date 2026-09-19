@@ -39,8 +39,8 @@ function App() {
     <>
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       {!isLoading && (
-        <div className="relative min-h-screen overflow-x-hidden bg-slate-950 font-sans text-gray-100">
-          <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_12%_8%,rgba(212,175,55,0.08),transparent_36%),radial-gradient(circle_at_88%_18%,rgba(37,99,235,0.12),transparent_40%)]" />
+        <div className="app-shell relative min-h-screen overflow-x-hidden bg-slate-950 font-sans text-gray-100">
+          <div className="app-atmosphere pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_12%_8%,rgba(212,175,55,0.08),transparent_36%),radial-gradient(circle_at_88%_18%,rgba(37,99,235,0.12),transparent_40%)]" />
           <div className="relative z-10">
             <ScrollRobot />
             <Navigation activeSection={activeSection} />
