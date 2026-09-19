@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { Mail, Phone, MapPin, Download, Github, Linkedin, Instagram, ArrowRight } from 'lucide-react';
-import { useRef, useEffect, useState, type CSSProperties } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { motion, useScroll, useTransform, useSpring, type MotionValue } from 'framer-motion';
@@ -55,14 +55,12 @@ const AnimatedSphere = () => {
   );
 };
 
-const SPARK_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315];
-
-/** Rayon orbital en % du conteneur carré (même centre que la photo) */
-const ORBIT_RADIUS = 46;
+/** Rayon orbital en % — assez grand pour ne pas chevaucher la photo (~42% de large) */
+const ORBIT_RADIUS = 48;
 
 /**
- * Pastille positionnée en coordonnées polaires.
- * On ne tourne jamais le texte : seul left/top bougent → toujours lisible.
+ * Pastille en coordonnées polaires autour du centre 50/50.
+ * Jamais de rotate sur le texte → toujours lisible.
  */
 const OrbitBadge = ({
   role,
@@ -86,44 +84,74 @@ const OrbitBadge = ({
 
   return (
     <motion.span
-      initial={{ opacity: 0, scale: 0.4 }}
+      initial={{ opacity: 0, scale: 0.35 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.9 + index * 0.07, type: 'spring', stiffness: 180, damping: 16 }}
+      transition={{ delay: 1.05 + index * 0.06, type: 'spring', stiffness: 200, damping: 16 }}
       style={{ left, top, x: '-50%', y: '-50%' }}
-      className="orbit-badge pointer-events-none absolute z-20 rounded-full border border-gold-400/50 bg-slate-950/95 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-gold-100 sm:px-3 sm:py-1.5 sm:text-[11px]"
+      className="orbit-badge pointer-events-none absolute z-30 rounded-full border border-gold-400/50 bg-slate-950/95 px-2 py-1 text-[9px] font-semibold tracking-wide text-gold-100 sm:px-3 sm:py-1.5 sm:text-[11px]"
     >
       {role}
     </motion.span>
   );
 };
 
+/**
+ * Burst type PromoBurst / ElectricBurst (Projet-Etude + Projet-Summer)
+ * adapté or/bleu autour de la photo.
+ */
+const PhotoBurst = ({ show }: { show: boolean }) => {
+  if (!show) return null;
+
+  return (
+    <div className="hero-photo-burst" aria-hidden>
+      <div className="hero-photo-burst-glow" />
+      <svg className="hero-photo-burst-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path className="hero-photo-burst-path gold" d="M5 20 Q30 10 50 50 T95 25" />
+        <path className="hero-photo-burst-path blue" d="M8 80 Q40 60 50 50 T92 78" />
+        <path className="hero-photo-burst-path gold" d="M20 5 Q40 40 50 50 T70 95" />
+        <path className="hero-photo-burst-path blue" d="M80 8 Q55 35 50 50 T15 90" />
+      </svg>
+      {Array.from({ length: 14 }, (_, i) => (
+        <span
+          key={i}
+          className="hero-photo-burst-spark"
+          style={{
+            left: `${12 + ((i * 17) % 76)}%`,
+            top: `${18 + ((i * 23) % 64)}%`,
+            animationDelay: `${0.08 + i * 0.04}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const OrbitPortrait = () => {
   const portraitRef = useRef<HTMLDivElement>(null);
-  const [burstReady, setBurstReady] = useState(false);
+  const [burstShow, setBurstShow] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: portraitRef,
     offset: ['start end', 'end start'],
   });
 
-  // Rotation liée au scroll (descente / remontée)
   const rawRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-  const rotate = useSpring(rawRotate, { stiffness: 55, damping: 28, mass: 0.4 });
+  const rotate = useSpring(rawRotate, { stiffness: 50, damping: 30, mass: 0.45 });
 
   useEffect(() => {
-    const t = window.setTimeout(() => setBurstReady(true), 50);
+    const t = window.setTimeout(() => setBurstShow(false), 1100);
     return () => window.clearTimeout(t);
   }, []);
 
   return (
     <div
       ref={portraitRef}
-      className="relative mx-auto aspect-square w-full max-w-[280px] sm:max-w-[360px] lg:max-w-[400px]"
+      className="relative mx-auto aspect-square w-[min(100%,300px)] sm:w-[min(100%,380px)] lg:w-[min(100%,420px)]"
     >
-      {/* Halo centré */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-gold-400/30 via-blue-500/15 to-transparent blur-3xl" />
+      {/* Halo derrière, même centre */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[65%] w-[65%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-gold-400/35 via-blue-500/20 to-transparent blur-3xl" />
 
-      {/* Pastilles autour — même centre 50%/50% que la photo */}
+      {/* Pastilles — centre géométrique 50% / 50% */}
       {orbitRoles.map((role, index) => {
         const baseAngle = (index / orbitRoles.length) * 360 - 90;
         return (
@@ -137,14 +165,14 @@ const OrbitPortrait = () => {
         );
       })}
 
-      {/* Photo parfaitement centrée */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.68, filter: 'brightness(2.8) contrast(1.2)' }}
-        animate={{ opacity: 1, scale: 1, filter: 'brightness(1) contrast(1)' }}
-        transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        className="absolute left-1/2 top-1/2 z-10 w-[52%] -translate-x-1/2 -translate-y-1/2 sm:w-[50%]"
-      >
-        <div className="electric-burst-frame overflow-hidden rounded-[1.35rem] border-2 border-gold-400/70 shadow-[0_0_50px_rgba(212,175,55,0.3)] sm:rounded-[1.75rem]">
+      {/*
+        Wrapper STATIQUE pour le centrage (left/top + translate).
+        Framer Motion ne doit PAS gérer le transform ici, sinon le -translate est écrasé.
+      */}
+      <div className="absolute left-1/2 top-1/2 z-20 w-[42%] -translate-x-1/2 -translate-y-1/2 sm:w-[40%]">
+        <PhotoBurst show={burstShow} />
+
+        <div className="hero-photo-core overflow-hidden rounded-[1.25rem] border-2 border-gold-400/70 shadow-[0_0_40px_rgba(212,175,55,0.35)] sm:rounded-[1.6rem]">
           <img
             src={portraitPhotos.hero}
             alt={site.name}
@@ -154,28 +182,7 @@ const OrbitPortrait = () => {
             className="aspect-[3/4] h-auto w-full object-cover object-[center_18%]"
           />
         </div>
-
-        {burstReady &&
-          SPARK_ANGLES.map((deg, i) => {
-            const rad = (deg * Math.PI) / 180;
-            const dist = 90 + (i % 3) * 28;
-            return (
-              <span
-                key={deg}
-                className="electric-burst-spark"
-                style={
-                  {
-                    left: '50%',
-                    top: '50%',
-                    ['--sx']: `${Math.cos(rad) * dist}px`,
-                    ['--sy']: `${Math.sin(rad) * dist}px`,
-                    animationDelay: `${0.04 * i}s`,
-                  } as CSSProperties
-                }
-              />
-            );
-          })}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -210,17 +217,22 @@ const Hero = () => {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-4">
-        <div className="space-y-8 order-2 lg:order-1">
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
+        <div className="order-2 space-y-8 lg:order-1">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.85 }}
             className="font-display text-2xl text-gold-300 sm:text-3xl"
           >
             Hello
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.95 }}
+          >
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.28em] text-gold-400">
               {site.title}
             </p>
@@ -234,7 +246,7 @@ const Hero = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 1.05 }}
             className="max-w-xl text-base leading-relaxed text-slate-200 sm:text-lg"
           >
             {site.tagline}
@@ -243,7 +255,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 1.1 }}
             className="flex flex-wrap gap-3"
           >
             {contactInfo.map((info) => (
@@ -265,7 +277,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 1.15 }}
             className="flex flex-wrap gap-3"
           >
             <button
@@ -313,8 +325,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Photo d’abord sur mobile pour l’effet ElectricBurst bien visible */}
-        <div className="relative order-1 mx-auto w-full py-2 lg:order-2 lg:py-0">
+        <div className="relative order-1 flex w-full justify-center px-2 py-4 sm:px-4 lg:order-2 lg:py-2">
           <OrbitPortrait />
         </div>
       </div>
