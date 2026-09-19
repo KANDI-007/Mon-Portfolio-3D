@@ -1,10 +1,10 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { Mail, Phone, MapPin, Download, Github, Linkedin, Instagram, ArrowRight } from 'lucide-react';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, type CSSProperties } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, type MotionValue } from 'framer-motion';
 import {
   site,
   socialLinks,
@@ -13,7 +13,6 @@ import {
   orbitRoles,
   scrollToSection,
 } from '../config/site';
-
 import { portraitPhotos } from '../utils/imagePaths';
 
 const AnimatedSphere = () => {
@@ -56,6 +55,116 @@ const AnimatedSphere = () => {
   );
 };
 
+const SPARK_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315];
+
+const OrbitBadge = ({
+  role,
+  angle,
+  index,
+  rotate,
+}: {
+  role: string;
+  angle: number;
+  index: number;
+  rotate: MotionValue<number>;
+}) => {
+  const counter = useTransform(rotate, (r) => -r);
+
+  return (
+    <div
+      className="absolute left-1/2 top-1/2"
+      style={
+        {
+          transform: `rotate(${angle}deg) translateX(var(--orbit-r))`,
+          ['--orbit-r']: 'clamp(7.2rem, 38vw, 11.5rem)',
+        } as CSSProperties
+      }
+    >
+      <motion.span
+        initial={{ opacity: 0, scale: 0.45 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.95 + index * 0.07, type: 'spring', stiffness: 170, damping: 15 }}
+        style={{ rotate: counter }}
+        className="orbit-badge absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold-400/45 bg-slate-950/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-gold-100 sm:px-3 sm:py-1.5 sm:text-[11px]"
+      >
+        {role}
+      </motion.span>
+    </div>
+  );
+};
+
+const OrbitPortrait = () => {
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const [burstReady, setBurstReady] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: portraitRef,
+    offset: ['start end', 'end start'],
+  });
+
+  // 0 → 360° en descendant, et l’inverse en remontant
+  const rawRotate = useTransform(scrollYProgress, [0, 1], [-40, 320]);
+  const rotate = useSpring(rawRotate, { stiffness: 60, damping: 26, mass: 0.35 });
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setBurstReady(true), 50);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  return (
+    <div
+      ref={portraitRef}
+      className="relative mx-auto aspect-square w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[430px]"
+    >
+      <motion.div className="pointer-events-none absolute inset-0 z-20" style={{ rotate }}>
+        {orbitRoles.map((role, index) => {
+          const angle = (index / orbitRoles.length) * 360;
+          return <OrbitBadge key={role} role={role} angle={angle} index={index} rotate={rotate} />;
+        })}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.68, filter: 'brightness(2.8) contrast(1.2)' }}
+        animate={{ opacity: 1, scale: 1, filter: 'brightness(1) contrast(1)' }}
+        transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+        className="electric-burst-frame absolute left-1/2 top-1/2 z-10 w-[58%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.45rem] border-2 border-gold-400/70 shadow-[0_0_50px_rgba(212,175,55,0.3)] sm:w-[54%] sm:rounded-[1.85rem]"
+      >
+        <img
+          src={portraitPhotos.hero}
+          alt={site.name}
+          width={680}
+          height={900}
+          fetchPriority="high"
+          className="aspect-[3/4] h-auto w-full object-cover object-[center_18%]"
+        />
+
+        {burstReady &&
+          SPARK_ANGLES.map((deg, i) => {
+            const rad = (deg * Math.PI) / 180;
+            const dist = 95 + (i % 3) * 30;
+            return (
+              <span
+                key={deg}
+                className="electric-burst-spark"
+                style={
+                  {
+                    left: '50%',
+                    top: '50%',
+                    ['--sx']: `${Math.cos(rad) * dist}px`,
+                    ['--sy']: `${Math.sin(rad) * dist}px`,
+                    animationDelay: `${0.04 * i}s`,
+                  } as CSSProperties
+                }
+              />
+            );
+          })}
+      </motion.div>
+
+      <div className="pointer-events-none absolute inset-[10%] -z-10 rounded-full bg-gradient-to-br from-gold-400/35 via-blue-500/20 to-transparent blur-3xl" />
+    </div>
+  );
+};
+
 const Hero = () => {
   const [showCanvas, setShowCanvas] = useState(false);
 
@@ -86,8 +195,8 @@ const Hero = () => {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="space-y-8">
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-4">
+        <div className="space-y-8 order-2 lg:order-1">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -189,51 +298,10 @@ const Hero = () => {
           </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.25, duration: 0.7 }}
-          className="relative mx-auto flex w-full max-w-[420px] flex-col items-center justify-center py-10 lg:max-w-none lg:py-6"
-        >
-          <div className="relative w-full max-w-[340px]">
-            <div className="absolute inset-[-8%] rounded-[2rem] bg-gradient-to-br from-gold-400/25 via-blue-500/10 to-transparent blur-3xl" />
-            <div className="relative overflow-hidden rounded-[2rem] border-2 border-gold-400/60 shadow-[0_0_50px_rgba(212,175,55,0.28)]">
-              <img
-                src={portraitPhotos.hero}
-                alt={site.name}
-                width={680}
-                height={900}
-                fetchPriority="high"
-                className="aspect-[3/4] h-auto w-full object-cover object-[center_18%]"
-              />
-            </div>
-
-            <div className="pointer-events-none absolute inset-0 hidden sm:block">
-              {orbitRoles.map((role, index) => {
-                const angle = (index / orbitRoles.length) * Math.PI * 2 - Math.PI / 2;
-                const x = 50 + Math.cos(angle) * 58;
-                const y = 50 + Math.sin(angle) * 52;
-                return (
-                  <span
-                    key={role}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold-400/40 bg-slate-950/80 px-3 py-1 text-[11px] font-semibold tracking-wide text-gold-100 shadow-lg backdrop-blur"
-                    style={{ left: `${x}%`, top: `${y}%` }}
-                  >
-                    {role}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-wrap justify-center gap-2 sm:hidden">
-            {orbitRoles.map((role) => (
-              <span key={role} className="rounded-full border border-gold-400/30 bg-slate-900/70 px-3 py-1 text-xs text-gold-100">
-                {role}
-              </span>
-            ))}
-          </div>
-        </motion.div>
+        {/* Photo d’abord sur mobile pour l’effet ElectricBurst bien visible */}
+        <div className="relative order-1 mx-auto w-full py-2 lg:order-2 lg:py-0">
+          <OrbitPortrait />
+        </div>
       </div>
     </section>
   );
