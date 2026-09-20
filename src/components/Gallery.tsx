@@ -1,44 +1,94 @@
-import { Play, Camera } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { portraitPhotos, presentationVideo } from '../utils/imagePaths';
 import { site } from '../config/site';
-import ImageGallery from './ImageGallery';
 import { usePreferences } from '../context/PreferencesContext';
+import RoundCarousel from './ui/round-carousel';
+
+type CarouselSize = {
+  imageWidth: number;
+  imageHeight: number;
+  height: number;
+  spacing: number;
+  perspective: number;
+  cornerRadius: number;
+  tilt: number;
+};
+
+function getCarouselSize(width: number): CarouselSize {
+  if (width < 480) {
+    return {
+      imageWidth: 132,
+      imageHeight: 168,
+      height: 260,
+      spacing: 5,
+      perspective: 1400,
+      cornerRadius: 16,
+      tilt: -5,
+    };
+  }
+  if (width < 768) {
+    return {
+      imageWidth: 160,
+      imageHeight: 200,
+      height: 320,
+      spacing: 4,
+      perspective: 1800,
+      cornerRadius: 18,
+      tilt: -6,
+    };
+  }
+  if (width < 1024) {
+    return {
+      imageWidth: 200,
+      imageHeight: 250,
+      height: 400,
+      spacing: 3,
+      perspective: 2400,
+      cornerRadius: 20,
+      tilt: -7,
+    };
+  }
+  return {
+    imageWidth: 240,
+    imageHeight: 300,
+    height: 460,
+    spacing: 3,
+    perspective: 3000,
+    cornerRadius: 22,
+    tilt: -7,
+  };
+}
 
 const Gallery = () => {
-  const { t } = usePreferences();
-  const [galleryState, setGalleryState] = useState({
-    isOpen: false,
-    images: [] as string[],
-    initialIndex: 0,
-    title: '',
-  });
+  const { t, theme } = usePreferences();
+  const [size, setSize] = useState<CarouselSize>(() =>
+    typeof window !== 'undefined' ? getCarouselSize(window.innerWidth) : getCarouselSize(1024)
+  );
 
-  const tiles = [
-    { src: portraitPhotos.costume, label: t.gallery.costume },
-    { src: portraitPhotos.desk, label: t.gallery.desk },
-    { src: portraitPhotos.casual, label: t.gallery.casual },
-    { src: portraitPhotos.leadership, label: t.gallery.leadership },
-  ];
+  useEffect(() => {
+    const update = () => setSize(getCarouselSize(window.innerWidth));
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
-  const allPhotos = [
-    portraitPhotos.hero,
-    portraitPhotos.desk,
-    portraitPhotos.costume,
-    portraitPhotos.casual,
-    portraitPhotos.leadership,
-  ];
+  const carouselImages = useMemo(
+    () => [
+      { src: portraitPhotos.hero },
+      { src: portraitPhotos.costume },
+      { src: portraitPhotos.desk },
+      { src: portraitPhotos.casual },
+      { src: portraitPhotos.leadership },
+      { src: portraitPhotos.costume },
+      { src: portraitPhotos.desk },
+      { src: portraitPhotos.hero },
+    ],
+    []
+  );
 
-  const openPhoto = (src: string, title: string) => {
-    const index = allPhotos.indexOf(src);
-    setGalleryState({
-      isOpen: true,
-      images: allPhotos,
-      initialIndex: index >= 0 ? index : 0,
-      title,
-    });
-  };
+  const carouselBg = theme === 'light' ? '#f3f0ea' : '#020617';
 
   return (
     <section id="gallery" className="relative px-4 py-20 sm:px-6 lg:px-8">
@@ -59,7 +109,7 @@ const Gallery = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card relative mb-4 overflow-hidden rounded-3xl"
+          className="glass-card relative mb-6 overflow-hidden rounded-3xl"
         >
           <video
             className="mx-auto h-auto max-h-[70vh] min-h-[220px] w-full bg-slate-950 object-contain sm:min-h-[360px] lg:min-h-[520px]"
@@ -80,39 +130,29 @@ const Gallery = () => {
           </div>
         </motion.article>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {tiles.map((tile) => (
-            <motion.button
-              key={tile.label}
-              type="button"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              onClick={() => openPhoto(tile.src, tile.label)}
-              className="glass-card group relative overflow-hidden rounded-3xl text-left"
-            >
-              <img
-                src={tile.src}
-                alt={tile.label}
-                className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent p-4">
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold-200">
-                  <Camera size={14} />
-                  {tile.label}
-                </span>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-
-        <ImageGallery
-          images={galleryState.images}
-          isOpen={galleryState.isOpen}
-          onClose={() => setGalleryState((s) => ({ ...s, isOpen: false }))}
-          initialIndex={galleryState.initialIndex}
-          title={galleryState.title}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card relative overflow-hidden rounded-3xl border border-gold-400/20"
+          style={{ height: size.height }}
+        >
+          <RoundCarousel
+            images={carouselImages}
+            imageWidth={size.imageWidth}
+            imageHeight={size.imageHeight}
+            spacing={size.spacing}
+            speed={5}
+            direction="right"
+            drag
+            sensitivity={4}
+            tilt={size.tilt}
+            perspective={size.perspective}
+            cornerRadius={size.cornerRadius}
+            innerDim={3.5}
+            background={carouselBg}
+          />
+        </motion.div>
       </div>
     </section>
   );
