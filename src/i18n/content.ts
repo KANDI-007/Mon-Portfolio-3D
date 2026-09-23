@@ -10,7 +10,7 @@ export function getExperiences(lang: Lang) {
       company: 'Juris Academy — ISSJ',
       location: 'Lomé, Togo',
       link: liveLinks.juris,
-      linkLabel: 'issj.edibainter.com',
+      linkLabel: 'juris-academy.vercel.app',
       description:
         'Conception et développement de Juris Academy, plateforme juridique complète pour les étudiants : cours, annales, quiz, flashcards, club et forum.',
       achievements: [
@@ -92,7 +92,7 @@ export function getExperiences(lang: Lang) {
       company: 'Juris Academy — ISSJ',
       location: 'Lomé, Togo',
       link: liveLinks.juris,
-      linkLabel: 'issj.edibainter.com',
+      linkLabel: 'juris-academy.vercel.app',
       description:
         'Designed and built Juris Academy, a complete legal platform for students: courses, past papers, quizzes, flashcards, club and forum.',
       achievements: [

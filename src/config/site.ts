@@ -33,7 +33,7 @@ export const whatsappLink = `https://wa.me/${site.whatsapp}`;
 export const liveLinks = {
   ediba: 'https://eip.edibainter.com/',
   macite: 'https://macite.edibainter.com/',
-  juris: 'https://issj.edibainter.com/',
+  juris: 'https://juris-academy.vercel.app/',
   motozil: 'https://motozil.edibainter.com/',
   portfolio: site.website,
   edibaGithub: 'https://github.com/KANDI-007/ediba-inter',
